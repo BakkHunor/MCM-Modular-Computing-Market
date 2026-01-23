@@ -1,0 +1,6 @@
+Ez egy backend alap: az Express szerver fut, 
+a route-ok és controllerek elő vannak készítve, 
+az adatbázisos logika későbbi lépés.
+
+Jelenleg mock adatkezelés van, 
+hogy a frontenddel már lehessen kommunikálni.
