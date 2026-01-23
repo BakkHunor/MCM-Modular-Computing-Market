@@ -1,0 +1,41 @@
+:host{ display:block; }
+.wrap{ max-width: 520px; margin: 0 auto; padding: 22px 18px; }
+.card{
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  padding: 18px;
+}
+h1{ margin:0 0 6px; color:#F3F3F3; font-weight: 900; }
+.sub{ margin:0 0 16px; color: rgba(243,243,243,0.75); }
+label{ display:block; color: rgba(243,243,243,0.85); margin: 10px 0 6px; }
+input{
+  width:100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: #0f1712;
+  color: #F3F3F3;
+  outline:none;
+}
+button{
+  width:100%;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.22);
+  background: rgba(255,255,255,0.14);
+  color: #F3F3F3;
+  cursor: pointer;
+  font-weight: 800;
+}
+.msg{
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(230,255,240,0.88);
+  background: rgba(7,10,8,0.45);
+}
+.muted{ margin: 14px 0 0; color: rgba(230,255,240,0.72); }
+.muted a{ color: rgba(255,255,255,0.9); text-decoration:none; }

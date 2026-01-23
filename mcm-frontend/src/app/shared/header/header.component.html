@@ -1,0 +1,22 @@
+<header class="nav">
+  <a class="brand" routerLink="/">
+    <img class="brand-logo" src="assets/mcm-logo.png" alt="MCM logo" />
+    <span class="brand-name">MCM</span>
+  </a>
+
+  <div class="search">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch()"
+      placeholder="Keresés (pl. FIFA, RTX, Steam…)"
+      aria-label="Keresés"
+    />
+    <button type="button" (click)="onSearch()">Keresés</button>
+  </div>
+
+  <nav class="links">
+    <a routerLink="/login">Belépés</a>
+    <a class="cta" routerLink="/register">Regisztráció</a>
+  </nav>
+</header>

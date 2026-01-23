@@ -1,0 +1,35 @@
+<div class="wrap" *ngIf="product; else notFound">
+  <a class="back" routerLink="/search">← Vissza a találatokhoz</a>
+
+  <div class="card">
+    <img class="img" [src]="product.imageUrl" [alt]="product.name" />
+
+    <div class="body">
+      <div class="title">{{ product.name }}</div>
+
+      <div class="meta">
+        <span class="pill">{{ product.category }}</span>
+        <span class="pill" *ngIf="product.platform">{{ product.platform }}</span>
+      </div>
+
+      <div class="price">{{ product.price | number }} Ft</div>
+
+      <p class="desc">
+        Ez egy demo termékoldal (frontend). Később a backendből jön a leírás, készlet, kupon, kosár, checkout.
+      </p>
+
+      <button class="btn" type="button" disabled>
+        Kosárba (backend nélkül most csak UI)
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="wrap">
+    <div class="nf">
+      Nincs ilyen termék (mock adatokban).
+      <a routerLink="/search">Vissza</a>
+    </div>
+  </div>
+</ng-template>

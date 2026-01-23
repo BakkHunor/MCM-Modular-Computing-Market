@@ -1,0 +1,52 @@
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <h1>MCM</h1>
+      <div class="tagline">Modular Computing Market</div>
+      <p>
+        Játékkulcsok, ajándékkártyák és gépalkatrészek – gyors keresés,
+        átlátható szűrés, egyszerű vásárlás.
+      </p>
+      <div class="hero-actions">
+        <a class="btn primary" routerLink="/search" [queryParams]="{ q: 'fifa' }">Próbáld ki a keresőt</a>
+        <a class="btn" routerLink="/search">Összes termék</a>
+      </div>
+      <div class="badges">
+      </div>
+    </div>
+
+    <div class="hero-card">
+      <div class="hero-card-title">Kiemelt</div>
+      <div class="mini-grid">
+        <a class="mini" *ngFor="let p of featured.slice(0, 3)" [routerLink]="['/product', p.id]">
+          <img [src]="p.imageUrl" [alt]="p.name" />
+          <div class="mini-meta">
+            <div class="mini-name">{{ p.name }}</div>
+            <div class="mini-price">{{ p.price | number }} Ft</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Kiemelt termékek</h2>
+    <a routerLink="/search">Minden termék →</a>
+  </div>
+
+  <div class="grid">
+    <a class="card" *ngFor="let p of featured" [routerLink]="['/product', p.id]">
+      <img [src]="p.imageUrl" [alt]="p.name" />
+      <div class="card-body">
+        <div class="name">{{ p.name }}</div>
+        <div class="meta">
+          <span class="pill">{{ p.category }}</span>
+          <span class="pill" *ngIf="p.platform">{{ p.platform }}</span>
+        </div>
+        <div class="price">{{ p.price | number }} Ft</div>
+      </div>
+    </a>
+  </div>
+</section>

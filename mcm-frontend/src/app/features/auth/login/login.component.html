@@ -1,0 +1,21 @@
+<div class="wrap">
+  <div class="card">
+    <h1>Belépés</h1>
+    <p class="sub">Frontend UI (backend nélkül).</p>
+
+    <label>Email</label>
+    <input [(ngModel)]="email" type="email" placeholder="email@pelda.hu" />
+
+    <label>Jelszó</label>
+    <input [(ngModel)]="password" type="password" placeholder="••••••••" />
+
+    <button type="button" (click)="submit()">Belépés</button>
+
+    <div class="msg" *ngIf="message">{{ message }}</div>
+
+    <p class="muted">
+      Nincs fiókod?
+      <a routerLink="/register">Regisztráció</a>
+    </p>
+  </div>
+</div>
