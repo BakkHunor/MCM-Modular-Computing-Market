@@ -41,3 +41,4 @@ ami tartalmazza a projekt adatait, a futtatási
 scripteket és a használt csomagokat.
 
 MEGíRVA: 1/23/2026
+

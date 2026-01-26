@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,19 +13,21 @@ import { RouterModule } from '@angular/router';
 })
 export class RegisterComponent {
   email = '';
-  password = '';
-  password2 = '';
+  accept = false;
   message = '';
 
+  constructor(private auth: AuthService, private router: Router) {}
+
   submit(): void {
-    if (!this.email.trim() || !this.password.trim()) {
-      this.message = 'Kérlek töltsd ki az emailt és a jelszót.';
+    if (!this.email.trim()) {
+      this.message = 'Add meg az email címet.';
       return;
     }
-    if (this.password !== this.password2) {
-      this.message = 'A két jelszó nem egyezik.';
+    if (!this.accept) {
+      this.message = 'Fogadd el a feltételeket.';
       return;
     }
-    this.message = 'Frontend demo: itt majd a backend API hívás lesz (register).';
+    this.auth.register(this.email.trim());
+    this.router.navigate(['/profile']);
   }
 }

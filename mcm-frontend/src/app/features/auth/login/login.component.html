@@ -1,21 +1,45 @@
-<div class="wrap">
-  <div class="card">
-    <h1>Belépés</h1>
-    <p class="sub">Frontend UI (backend nélkül).</p>
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Welcome home, player!</h1>
 
-    <label>Email</label>
-    <input [(ngModel)]="email" type="email" placeholder="email@pelda.hu" />
+    <div class="field">
+      <span class="icon" aria-hidden="true">👤</span>
+      <input [(ngModel)]="email" type="email" placeholder="Email" autocomplete="email" />
+    </div>
 
-    <label>Jelszó</label>
-    <input [(ngModel)]="password" type="password" placeholder="••••••••" />
+    <div class="field">
+      <span class="icon" aria-hidden="true">🔒</span>
+      <input [(ngModel)]="password" type="password" placeholder="Jelszó" autocomplete="current-password" />
+      <a class="hint" href="#" (click)="$event.preventDefault()">Elfelejtett jelszó?</a>
+    </div>
 
-    <button type="button" (click)="submit()">Belépés</button>
+    <label class="remember">
+      <input type="checkbox" [(ngModel)]="remember" />
+      <span>Remember me</span>
+    </label>
+
+    <div class="captcha">
+      <div class="captcha-box">
+        <div class="check"></div>
+        <div class="cap-text">I'm not a robot</div>
+        <div class="cap-logo">reCAPTCHA</div>
+      </div>
+    </div>
+
+    <button class="primary" type="button" (click)="submit()">SIGN IN</button>
+
+    <div class="divider"><span>or</span></div>
+
+    <button class="social fb" type="button">Continue with Facebook</button>
+    <button class="social google" type="button">Continue with Google</button>
+    <button class="social twitch" type="button">Continue with Twitch</button>
+    <button class="social paypal" type="button">Continue with PayPal</button>
+    <button class="social steam" type="button">Continue with Steam</button>
 
     <div class="msg" *ngIf="message">{{ message }}</div>
 
-    <p class="muted">
-      Nincs fiókod?
-      <a routerLink="/register">Regisztráció</a>
+    <p class="bottom">
+      New to MCM? <a routerLink="/register">Sign up now!</a>
     </p>
   </div>
 </div>
