@@ -6,7 +6,7 @@ export interface Profile {
   username: string;
 }
 
-const LS_KEY = 'mcm_profile';
+const KEY = 'mcm_profile';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -21,10 +21,17 @@ export class AuthService {
     return !!this._profile$.value;
   }
 
-  login(email: string): void {
+  login(email: string, remember: boolean = true): void {
     const username = this.deriveUsername(email);
     const profile: Profile = { email, username };
-    localStorage.setItem(LS_KEY, JSON.stringify(profile));
+    // UI-only: "Remember me" → localStorage, különben sessionStorage
+    if (remember) {
+      localStorage.setItem(KEY, JSON.stringify(profile));
+      sessionStorage.removeItem(KEY);
+    } else {
+      sessionStorage.setItem(KEY, JSON.stringify(profile));
+      localStorage.removeItem(KEY);
+    }
     this._profile$.next(profile);
   }
 
@@ -34,13 +41,14 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem(LS_KEY);
+    localStorage.removeItem(KEY);
+    sessionStorage.removeItem(KEY);
     this._profile$.next(null);
   }
 
   private read(): Profile | null {
     try {
-      const raw = localStorage.getItem(LS_KEY);
+      const raw = localStorage.getItem(KEY) || sessionStorage.getItem(KEY);
       return raw ? (JSON.parse(raw) as Profile) : null;
     } catch {
       return null;

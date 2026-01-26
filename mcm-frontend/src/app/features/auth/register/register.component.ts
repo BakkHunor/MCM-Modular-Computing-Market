@@ -13,7 +13,8 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class RegisterComponent {
   email = '';
-  accept = false;
+  password = '';
+  password2 = '';
   message = '';
 
   constructor(private auth: AuthService, private router: Router) {}
@@ -23,10 +24,15 @@ export class RegisterComponent {
       this.message = 'Add meg az email címet.';
       return;
     }
-    if (!this.accept) {
-      this.message = 'Fogadd el a feltételeket.';
+    if (!this.password) {
+      this.message = 'Add meg a jelszót.';
       return;
     }
+    if (this.password !== this.password2) {
+      this.message = 'A két jelszó nem egyezik.';
+      return;
+    }
+    // UI-only: profil létrehozása (backend/db nélkül)
     this.auth.register(this.email.trim());
     this.router.navigate(['/profile']);
   }

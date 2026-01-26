@@ -1,43 +1,28 @@
 <div class="auth-page">
   <div class="auth-card">
-    <h1>Become a family member</h1>
+    <h1>Hozd létre az MCM profilod</h1>
 
     <div class="field">
       <span class="icon" aria-hidden="true">✉️</span>
       <input [(ngModel)]="email" type="email" placeholder="Email" autocomplete="email" />
     </div>
 
-    <label class="terms">
-      <input type="checkbox" [(ngModel)]="accept" />
-      <span>
-        I accept <a href="#" (click)="$event.preventDefault()">Terms &amp; Conditions</a> and confirm I am over 18 years old.
-      </span>
-    </label>
-
-    <div class="captcha">
-      <div class="captcha-box">
-        <div class="check"></div>
-        <div class="cap-text">I'm not a robot</div>
-        <div class="cap-logo">reCAPTCHA</div>
-      </div>
+    <div class="field">
+      <span class="icon" aria-hidden="true">🔒</span>
+      <input [(ngModel)]="password" type="password" placeholder="Jelszó" autocomplete="new-password" />
     </div>
 
-    <button class="primary" type="button" (click)="submit()">REGISTER</button>
-
-    <div class="divider"><span>or continue with</span></div>
-
-    <div class="social-row">
-      <button type="button" class="chip">f</button>
-      <button type="button" class="chip">G</button>
-      <button type="button" class="chip">P</button>
-      <button type="button" class="chip">S</button>
-      <button type="button" class="chip">T</button>
+    <div class="field">
+      <span class="icon" aria-hidden="true">🔒</span>
+      <input [(ngModel)]="password2" type="password" placeholder="Jelszó újra" autocomplete="new-password" />
     </div>
+
+    <button class="primary" type="button" (click)="submit()">Regisztráció</button>
 
     <div class="msg" *ngIf="message">{{ message }}</div>
 
     <p class="bottom">
-      Already registered? <a routerLink="/login">Login now!</a>
+      Már van fiókod? <a routerLink="/login">Belépés</a>
     </p>
   </div>
 </div>

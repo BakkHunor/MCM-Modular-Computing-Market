@@ -79,36 +79,6 @@ input:focus{
 
 .remember input{ width: 14px; height: 14px; }
 
-.captcha{
-  margin: 12px 0 14px;
-  display:flex;
-  justify-content:center;
-}
-
-.captcha-box{
-  width: 100%;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(0,0,0,0.22);
-  padding: 12px;
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  color: rgba(255,255,255,0.85);
-  font-size: 12px;
-}
-
-.check{
-  width: 18px;
-  height: 18px;
-  border-radius: 3px;
-  border: 1px solid rgba(255,255,255,0.35);
-  background: rgba(255,255,255,0.06);
-}
-
-.cap-text{ flex: 1; }
-.cap-logo{ opacity: .8; font-size: 11px; }
-
 .primary{
   width: 100%;
   padding: 12px 14px;
@@ -124,37 +94,6 @@ input:focus{
 .primary:hover{
   background: linear-gradient(180deg, var(--accent-hover) 0%, var(--accent) 100%);
 }
-
-.divider{
-  margin: 14px 0;
-  display:flex;
-  align-items:center;
-  gap: 12px;
-  color: rgba(255,255,255,0.60);
-}
-
-.divider:before, .divider:after{
-  content:'';
-  flex: 1;
-  height: 1px;
-  background: rgba(255,255,255,0.10);
-}
-
-.divider span{ font-size: 12px; }
-
-.social{
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.20);
-  color: var(--text);
-  cursor: pointer;
-  font-weight: 700;
-  margin: 8px 0;
-}
-
-.social:hover{ background: rgba(255,255,255,0.06); }
 
 .msg{
   margin-top: 12px;
