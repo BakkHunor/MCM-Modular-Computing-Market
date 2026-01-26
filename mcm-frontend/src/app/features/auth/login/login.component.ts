@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,18 @@ import { RouterModule } from '@angular/router';
 export class LoginComponent {
   email = '';
   password = '';
+  remember = true;
   message = '';
 
+  constructor(private auth: AuthService, private router: Router) {}
+
   submit(): void {
-    // Csak UI (backend nélkül)
-    this.message = 'Frontend demo: itt majd a backend API hívás lesz (login).';
+    if (!this.email.trim()) {
+      this.message = 'Add meg az email címet.';
+      return;
+    }
+    // UI-only: beléptetjük localStorage alapon
+    this.auth.login(this.email.trim());
+    this.router.navigate(['/profile']);
   }
 }

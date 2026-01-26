@@ -1,7 +1,10 @@
 <header class="nav">
-  <a class="brand" routerLink="/">
-    <img class="brand-logo" src="assets/mcm-logo.png" alt="MCM logo" />
-    <span class="brand-name">MCM</span>
+  <a class="brand" routerLink="/" (click)="closeMenu()">
+    <img class="brand-logo" src="assets/mcm-mark.png" alt="MCM" />
+    <div class="brand-text">
+      <div class="brand-name">MCM</div>
+      <div class="brand-sub">Modular Computing Market</div>
+    </div>
   </a>
 
   <div class="search">
@@ -12,11 +15,24 @@
       placeholder="Keresés (pl. FIFA, RTX, Steam…)"
       aria-label="Keresés"
     />
-    <button type="button" (click)="onSearch()">Keresés</button>
+    <button type="button" class="btn" (click)="onSearch()">Keresés</button>
   </div>
 
   <nav class="links">
-    <a routerLink="/login">Belépés</a>
-    <a class="cta" routerLink="/register">Regisztráció</a>
+    <ng-container *ngIf="!auth.isLoggedIn; else logged">
+      <a class="link" routerLink="/login">Belépés</a>
+      <a class="btn primary" routerLink="/register">Regisztráció</a>
+    </ng-container>
+
+    <ng-template #logged>
+      <button type="button" class="btn ghost" (click)="toggleMenu()">
+        {{ auth.profile?.username }} ▾
+      </button>
+
+      <div class="menu" *ngIf="menuOpen" (mouseleave)="closeMenu()">
+        <a routerLink="/profile" (click)="closeMenu()">Profil</a>
+        <button type="button" (click)="logout()">Kijelentkezés</button>
+      </div>
+    </ng-template>
   </nav>
 </header>

@@ -20,4 +20,8 @@ export class ProductDetailComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
     this.productService.getById(id).subscribe((p) => (this.product = p));
   }
+
+  addToCart(): void {
+    alert('UI demo: a kosár / checkout majd a backenddel lesz összekötve.');
+  }
 }
