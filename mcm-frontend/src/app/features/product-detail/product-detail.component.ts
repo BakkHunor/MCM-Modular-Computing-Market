@@ -22,6 +22,6 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(): void {
-    alert('UI demo: a kosár / checkout majd a backenddel lesz összekötve.');
+    alert('Bemutató: a kosár és a fizetés később lesz összekötve a backenddel.');
   }
 }

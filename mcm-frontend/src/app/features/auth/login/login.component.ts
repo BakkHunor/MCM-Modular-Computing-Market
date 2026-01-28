@@ -24,8 +24,12 @@ export class LoginComponent {
       this.message = 'Add meg az email címet.';
       return;
     }
-    // UI-only: beléptetjük localStorage alapon
-    this.auth.login(this.email.trim());
+    if (!this.password) {
+      this.message = 'Add meg a jelszót.';
+      return;
+    }
+    // UI-only: beléptetjük storage alapon (backend/db nélkül)
+    this.auth.login(this.email.trim(), this.remember);
     this.router.navigate(['/profile']);
   }
 }
