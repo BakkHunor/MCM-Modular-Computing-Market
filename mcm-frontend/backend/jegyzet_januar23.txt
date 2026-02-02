@@ -23,6 +23,7 @@ minta felhasználók, teszt termékek, alap admin fiók
 Ez már adat, nem struktúra.
 
 src/controllers -
+src/middleware -
 src/models - 
 src/routes -
 
