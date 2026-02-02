@@ -34,7 +34,7 @@
       <div class="menu" *ngIf="menuOpen" (mouseleave)="closeMenu()">
         <div class="menu-head" *ngIf="auth.profile as p">
           <div class="menu-user">{{ p.username }}</div>
-          <div class="menu-email">{{ p.email }}</div>
+          <div class="menu-email" *ngIf="p.email">{{ p.email }}</div>
         </div>
         <a routerLink="/profile" (click)="closeMenu()">Profil</a>
         <button type="button" (click)="logout()">Kijelentkezés</button>
