@@ -1,5 +1,6 @@
 const db = require('../models');
 const User = db.User;
+const bcrypt = require('bcrypt');
 
 exports.register = async (req, res) => {
   const { username, email, password } = req.body;
@@ -11,10 +12,13 @@ exports.register = async (req, res) => {
   }
 
   try {
+    // Jelszó hash-elése
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const user = await User.create({
       username,
       email,
-      password
+      password: hashedPassword
     });
 
     res.status(201).json({
@@ -24,6 +28,7 @@ exports.register = async (req, res) => {
         email: user.email
       }
     });
+
   } catch (error) {
     res.status(500).json({
       message: 'Adatbázis hiba',

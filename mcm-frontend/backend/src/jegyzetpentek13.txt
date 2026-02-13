@@ -14,3 +14,87 @@ REST tesztelés
 postman: 
 500 error - hiba valahol
 201 response = nincs hiba
+http://localhost:3000/api/auth/register
+
+
+
+
+
+
+--------
+
+KOVETKEZO LEPESEK:
+
+jelszó hash (bcrypt) 
+login + JWT 
+védett route
+
+--------
+
+
+
+hash:
+egy egyirányú átalakítás
+nem visszafejthető
+ugyanabból a jelszóból mindig más hash lehet (salt miatt)
+
+
+bcrypt:
+Fogja a jelszót
+Generál egy salt-ot
+Hash-el
+Ezt mentjük az adatbázisba
+loginnál:
+nem visszafejtjük hanem összehasonlítjuk
+
+
+salt:
+A salt egy véletlenszerű plusz adat, amit a jelszóhoz adunk a hash-elés előtt.
+Ha nincs salt:
+Két user ugyanazzal a jelszóval:
+123456
+123456
+ugyanazt a hash-t kapná.
+Ez veszélyes, mert:
+könnyű összehasonlítani
+rainbow table támadás működik
+
+
+Login + JWT:
+Ha bejelentkezel, a backend tudja, hogy sikeres volt 
+De: hogyan bizonyítod a következő kérésnél, hogy te vagy az?
+
+JWT = JSON Web Token
+Ez egy digitális "belépőkártya".
+login után a backend ad egy tokent
+pl eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+Ez tartalmaz:
+-user ID
+-lejárati idő
+-digitális aláírás
+
+Hogyan működik:
+1 Login
+2 Backend generál JWT-t
+3 Frontend eltárolja
+4 Minden védett kérésnél elküldi:
+Authorization: Bearer TOKEN
+Backend:
+ellenőrzi az aláírást
+ha jó → engedélyez
+
+
+Védett route
+Olyan endpoint, amit csak bejelentkezett user érhet el.
+Példa:
+GET /api/profile
+Ez csak akkor működjön, ha van érvényes JWT
+
+
+biztonságos jelszókezelés
+token alapú auth (stateless)
+REST API security
+ipari standard megoldás
+
+
+jegyzet 02/13: elozo forrast atnezni

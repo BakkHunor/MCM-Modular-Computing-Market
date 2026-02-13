@@ -1,6 +1,8 @@
-const jwt = require('jsonwebtoken');
+const db = require('../models');
+const User = db.User;
+const bcrypt = require('bcrypt');
 
-exports.login = (req, res) => {
+exports.login = async (req, res) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -9,21 +11,33 @@ exports.login = (req, res) => {
     });
   }
 
-  // ideiglenes hitelesítés DB nélkül
-  if (username !== 'admin' || password !== '1234') {
-    return res.status(401).json({
-      message: 'Hibás felhasználónév vagy jelszó'
+  try {
+    const user = await User.findOne({
+      where: { username }
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'Felhasználó nem található'
+      });
+    }
+
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(401).json({
+        message: 'Hibás jelszó'
+      });
+    }
+
+    res.status(200).json({
+      message: 'Sikeres bejelentkezés'
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: 'Szerver hiba',
+      error: error.message
     });
   }
-
-  const token = jwt.sign(
-    { username },
-    process.env.JWT_SECRET,
-    { expiresIn: '1h' }
-  );
-
-  res.json({
-    message: 'Sikeres belépés',
-    token
-  });
 };
