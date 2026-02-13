@@ -1,0 +1,16 @@
+.sql (adatbázis és tábla fizikailag létezik)
+config.json (Sequelize tudja hova csatlakozzon)
+Sequelize model - user.model.js (tábla szerkezet egyezik)
+register.controller.js (adatot ment a DB-be)
+Ha itt hiba van → 500 error.
+
+
+backend API fejlesztés
+ORM használat (Sequelize)
+adatbázis integráció
+REST tesztelés
+
+
+postman: 
+500 error - hiba valahol
+201 response = nincs hiba
