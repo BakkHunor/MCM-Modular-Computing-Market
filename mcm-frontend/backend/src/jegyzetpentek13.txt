@@ -98,3 +98,21 @@ ipari standard megoldás
 
 
 jegyzet 02/13: elozo forrast atnezni
+
+
+most csinalom a vedett routeot:
+csak bejelentkezett user férjen hozzá
+Pl.:
+GET /api/profile
+De ez csak akkor működjön, ha van érvényes JWT token.
+
+Most konkrétan működik:
+
+JWT generálás
+Token ellenőrzés
+Middleware
+Protected route
+Tokenből user adat vissza
+
+
+cart:
