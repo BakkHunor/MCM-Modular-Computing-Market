@@ -12,7 +12,7 @@ exports.register = async (req, res) => {
   }
 
   try {
-    // Jelszó hash-elése
+    // Jelszó hash
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({

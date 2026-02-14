@@ -1,6 +1,7 @@
 const db = require('../models');
 const User = db.User;
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 exports.login = async (req, res) => {
   const { username, password } = req.body;
@@ -30,8 +31,16 @@ exports.login = async (req, res) => {
       });
     }
 
+    // JWT generálás
+    const token = jwt.sign(
+      { id: user.user_id, username: user.username },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
     res.status(200).json({
-      message: 'Sikeres bejelentkezés'
+      message: 'Sikeres bejelentkezés',
+      token: token
     });
 
   } catch (error) {
