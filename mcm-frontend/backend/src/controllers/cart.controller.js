@@ -56,11 +56,22 @@ exports.removeFromCart = async (req, res) => {
   const user_id = req.user.id;
 
   try {
-    await CartItem.destroy({
+    const item = await CartItem.findOne({
       where: { user_id, product_id }
     });
 
-    res.json({ message: "Termék törölve a kosárból" });
+    if (!item) {
+      return res.status(404).json({ message: "Termék nincs a kosárban" });
+    }
+
+    if (item.quantity > 1) {
+      item.quantity -= 1;
+      await item.save();
+      return res.json({ message: "Mennyiség csökkentve" });
+    } else {
+      await item.destroy();
+      return res.json({ message: "Termék törölve a kosárból" });
+    }
 
   } catch (error) {
     res.status(500).json({
