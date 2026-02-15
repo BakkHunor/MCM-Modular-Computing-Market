@@ -1,0 +1,38 @@
+{
+  "username": "asdasd1",
+  "email": "asdasd12@gmail.com",
+  "password": "asdasd123"
+}
+
+
+
+{
+  "username": "asdasd1",
+  "password": "asdasd123"
+}
+
+
+
+
+
+hardware: 
+
+{
+  "product_id": 3,
+  "quantity": 1
+}
+
+
+
+
+
+guest:
+x-session-id: test123
+
+
+giftcard:
+
+{
+  "product_id": 1,
+  "quantity": 1
+}

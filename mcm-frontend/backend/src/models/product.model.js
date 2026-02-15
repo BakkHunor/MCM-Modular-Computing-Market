@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     name: DataTypes.STRING,
     category: DataTypes.STRING,
+
+    requires_login: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+
     price: DataTypes.DECIMAL(10,2),
     stock: DataTypes.INTEGER
   }, {

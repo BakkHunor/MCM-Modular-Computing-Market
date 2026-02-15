@@ -7,3 +7,15 @@ logika:
  ------- | ---------- | ---------- 
  5       | NULL       | 3          
  NULL    | abc123xyz  | 2          
+
+
+
+
+jelenlegi hiba:
+
+{
+    "message": "Nincs token megadva"
+}
+
+checkout lehet rossz
+
