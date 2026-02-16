@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -10,10 +10,6 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
   constructor(public auth: AuthService) {}
-
-  ngOnInit(): void {
-    this.auth.refreshProfile().subscribe();
-  }
 }

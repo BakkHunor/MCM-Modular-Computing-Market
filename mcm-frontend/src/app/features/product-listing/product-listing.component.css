@@ -11,8 +11,8 @@
 
 .filters{
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.32);
+  border: 1px solid var(--outline);
+  background: var(--card);
   backdrop-filter: blur(12px);
   padding: 14px;
   height: fit-content;
@@ -31,18 +31,18 @@
 .filters-head button{
   padding: 8px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(0,0,0,0.20);
+  border: 1px solid var(--outline);
+  background: var(--card);
   color: var(--text);
   cursor: pointer;
   font-weight: 800;
 }
 
-.filters-head button:hover{ background: rgba(255,255,255,0.06); }
+.filters-head button:hover{ background: rgba(255,255,255,0.85); }
 
 .group{ margin-top: 12px; }
 
-label{ display:block; color: rgba(255,255,255,0.85); margin-bottom: 6px; font-size: 13px; }
+label{ display:block; color: var(--muted); margin-bottom: 6px; font-size: 13px; }
 
 .value.small{ color: var(--muted); font-size: 13px; }
 
@@ -54,15 +54,15 @@ select{
   width:100%;
   padding: 10px 10px;
   border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.16);
-  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--outline);
+  background: var(--card);
   color: var(--text);
   outline: none;
 }
 
 select:focus{
-  border-color: rgba(255,255,255,0.30);
-  box-shadow: 0 0 0 3px rgba(197,154,91,0.18);
+  border-color: rgba(136,104,64,0.72);
+  box-shadow: 0 0 0 3px rgba(136,104,64,0.18);
 }
 
 .content-head{ margin-bottom: 12px; display:flex; justify-content:space-between; }
@@ -72,9 +72,9 @@ select:focus{
 .empty{
   padding: 18px;
   border-radius: 18px;
-  border: 1px dashed rgba(255,255,255,0.18);
-  color: rgba(255,255,255,0.85);
-  background: rgba(0,0,0,0.22);
+  border: 1px dashed rgba(136,104,64,0.45);
+  color: var(--muted);
+  background: var(--card);
 }
 
 .grid{
@@ -87,8 +87,8 @@ select:focus{
   text-decoration:none;
   color: inherit;
   border-radius: 18px;
-  border: 1px solid rgba(255,255,255,0.14);
-  background: rgba(0,0,0,0.28);
+  border: 1px solid var(--outline);
+  background: var(--card);
   backdrop-filter: blur(10px);
   overflow:hidden;
   transition: transform 120ms ease, border-color 120ms ease;
@@ -111,7 +111,7 @@ select:focus{
   font-size: 12px;
   padding: 4px 8px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.14);
+  border: 1px solid var(--outline);
   color: rgba(255,255,255,0.78);
 }
 
@@ -123,7 +123,7 @@ select:focus{
   font-size: 12px;
   padding: 6px 10px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.16);
+  border: 1px solid var(--outline);
   color: #111;
   background: linear-gradient(180deg, var(--accent) 0%, rgba(197,154,91,0.80) 100%);
 }

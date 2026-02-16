@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Product } from '../../models/product.model';
 import { ProductService } from '../../services/product.service';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,7 +15,8 @@ import { ProductService } from '../../services/product.service';
 export class ProductDetailComponent implements OnInit {
   product?: Product;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) {}
+  constructor(private route: ActivatedRoute, private productService: ProductService,
+    private cart: CartService) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id') ?? '';
@@ -22,6 +24,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart(): void {
-    alert('Bemutató: a kosár és a fizetés később lesz összekötve a backenddel.');
+    if (!this.product) return;
+    this.cart.add(this.product, 1);
+    alert('Hozzáadva a kosárhoz!');
   }
 }

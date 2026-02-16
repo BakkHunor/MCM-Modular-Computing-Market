@@ -1,0 +1,40 @@
+<div class="wrap">
+  <div class="h1">Fizetés</div>
+  <div class="sub">Ellenőrizd a kosarat, majd folytasd.</div>
+
+  <div class="layout" *ngIf="cart.items.length > 0; else empty">
+    <section class="panel">
+      <div class="panel-title">Kosár tartalma</div>
+
+      <div class="item" *ngFor="let it of cart.items">
+        <img class="thumb" [src]="it.product.imageUrl" [alt]="it.product.name" />
+        <div class="mid">
+          <div class="name">{{ it.product.name }}</div>
+          <div class="meta">{{ it.quantity }} × {{ it.product.price | number }} Ft</div>
+        </div>
+        <div class="sum">{{ (it.quantity * it.product.price) | number }} Ft</div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <div class="card-title">Összesítő</div>
+        <div class="line total">
+          <div>Végösszeg</div>
+          <div class="right">{{ cart.subtotal | number }} Ft</div>
+        </div>
+
+        <label class="terms">
+          <input type="checkbox" [(ngModel)]="accept" />
+          <span>Elfogadom a <u>Feltételeket</u>.</span>
+        </label>
+
+        <button class="pay" type="button" (click)="pay()">Fizetés</button>
+      </div>
+    </aside>
+  </div>
+
+  <ng-template #empty>
+    <div class="empty">A kosarad üres.</div>
+  </ng-template>
+</div>

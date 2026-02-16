@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -12,43 +12,24 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  username = '';
+  email = '';
   password = '';
   remember = true;
   message = '';
 
-  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute) {
-    this.route.queryParams.subscribe((p) => {
-      const u = p['u'];
-      if (typeof u === 'string' && u.trim()) {
-        this.username = u.trim();
-      }
-    });
-  }
+  constructor(private auth: AuthService, private router: Router) {}
 
   submit(): void {
-    this.message = '';
-    if (!this.username.trim()) {
-      this.message = 'Add meg a felhasználónevet.';
+    if (!this.email.trim()) {
+      this.message = 'Add meg az email címet.';
       return;
     }
     if (!this.password) {
       this.message = 'Add meg a jelszót.';
       return;
     }
-
-    this.auth
-      .login({ username: this.username.trim(), password: this.password, remember: this.remember })
-      .subscribe({
-        next: () => {
-          // opcionális: frissítjük a profil adatot a /api/profile-ból
-          this.auth.refreshProfile().subscribe();
-          this.router.navigate(['/profile']);
-        },
-        error: (err) => {
-          const msg = err?.error?.message || err?.message || 'Nem sikerült a belépés.';
-          this.message = msg;
-        }
-      });
+    // UI-only: beléptetjük storage alapon (backend/db nélkül)
+    this.auth.login(this.email.trim(), this.remember);
+    this.router.navigate(['/profile']);
   }
 }

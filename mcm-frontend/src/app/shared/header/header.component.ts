@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
@@ -13,17 +14,23 @@ import { filter } from 'rxjs/operators';
   styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+  cartOpen = false;
+  openCart(){ this.cartOpen = true; }
+  closeCart(){ this.cartOpen = false; }
+
   searchTerm = '';
   menuOpen = false;
   hideSearch = false;
+  hideAuthLinks = false;
 
-  constructor(private router: Router, public auth: AuthService) {
+  constructor(private router: Router, public auth: AuthService, public cart: CartService) {
     // Kinguin-szerű élmény: auth oldalakon minimal header (kereső nélkül)
     this.router.events
       .pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
       .subscribe((e) => {
         const url = e.urlAfterRedirects;
         this.hideSearch = url.startsWith('/login') || url.startsWith('/register');
+        this.hideAuthLinks = this.hideSearch;
         if (this.hideSearch) {
           this.searchTerm = '';
           this.closeMenu();
@@ -33,6 +40,7 @@ export class HeaderComponent {
     // első betöltés
     const url = this.router.url;
     this.hideSearch = url.startsWith('/login') || url.startsWith('/register');
+        this.hideAuthLinks = this.hideSearch;
   }
 
   onSearch(): void {

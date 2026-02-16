@@ -1,0 +1,92 @@
+<div class="wrap">
+  <div class="head">
+    <div class="h1">Kosár</div>
+    <div class="sub" *ngIf="cart.count > 0">{{ cart.count }} tétel • {{ cart.subtotal | number }} Ft</div>
+  </div>
+
+  <div class="empty" *ngIf="cart.items.length === 0">
+    <div class="empty-title">A kosarad üres</div>
+    <div class="empty-sub">Tegyél bele termékeket, és itt fognak megjelenni.</div>
+    <a routerLink="/search" class="btn">Termékek böngészése</a>
+  </div>
+
+  <div class="layout" *ngIf="cart.items.length > 0">
+    <section class="panel">
+      <div class="panel-head">
+        <div class="title">Kosár tartalma</div>
+        <button type="button" class="ghost" (click)="clear()">Összes törlése</button>
+      </div>
+
+      <div class="table">
+        <div class="thead">
+          <div>Termék</div>
+          <div class="center">Ár</div>
+          <div class="center">Mennyiség</div>
+          <div class="right">Összeg</div>
+        </div>
+
+        <div class="trow" *ngFor="let it of cart.items">
+          <div class="prod">
+            <img class="thumb" [src]="it.product.imageUrl" [alt]="it.product.name" />
+            <div class="meta">
+              <div class="name">{{ it.product.name }}</div>
+              <div class="badges">
+                <span class="pill">{{ it.product.category }}</span>
+                <span class="pill" *ngIf="it.product.platform">{{ it.product.platform }}</span>
+              </div>
+              <button type="button" class="remove" (click)="remove(it.product.id)">Eltávolítás</button>
+            </div>
+          </div>
+
+          <div class="center price">{{ it.product.price | number }} Ft</div>
+
+          <div class="center qty">
+            <button type="button" class="qbtn" (click)="dec(it.product.id)">–</button>
+            <div class="qnum">{{ it.quantity }}</div>
+            <button type="button" class="qbtn" (click)="inc(it.product.id)">+</button>
+          </div>
+
+          <div class="right sum">{{ (it.product.price * it.quantity) | number }} Ft</div>
+        </div>
+      </div>
+
+      <div class="note">
+        <span class="i">i</span>
+        <span>Demo felület. Fizetés backendhez lesz kötve.</span>
+      </div>
+    </section>
+
+    <aside class="side">
+      <div class="card">
+        <div class="card-title">Kedvezménykód</div>
+        <div class="code">
+          <input [(ngModel)]="code" placeholder="Kód…" />
+          <button type="button" class="apply" (click)="applyCode()">Alkalmaz</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Rendelés összesítő</div>
+
+        <div class="line">
+          <div>Részösszeg</div>
+          <div class="right">{{ cart.subtotal | number }} Ft</div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="line total">
+          <div>Végösszeg</div>
+          <div class="right">{{ cart.subtotal | number }} Ft</div>
+        </div>
+
+        <label class="terms">
+          <input type="checkbox" [(ngModel)]="accept" />
+          <span>Elfogadom a <u>Feltételeket</u>.</span>
+        </label>
+
+        <a class="cta" routerLink="/checkout">Tovább a fizetéshez</a>
+      </div>
+    </aside>
+  </div>
+</div>

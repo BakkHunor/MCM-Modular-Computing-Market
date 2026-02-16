@@ -12,7 +12,6 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
-  username = '';
   email = '';
   password = '';
   password2 = '';
@@ -21,21 +20,8 @@ export class RegisterComponent {
   constructor(private auth: AuthService, private router: Router) {}
 
   submit(): void {
-    this.message = '';
-
-    const username = this.username.trim();
-    const email = this.email.trim();
-
-    if (!username) {
-      this.message = 'Add meg a felhasználónevet.';
-      return;
-    }
-    if (!email) {
-      this.message = 'Add meg a Gmail címet.';
-      return;
-    }
-    if (!/@gmail\.com$/i.test(email)) {
-      this.message = 'Csak Gmail cím használható (pl. valami@gmail.com).';
+    if (!this.email.trim()) {
+      this.message = 'Add meg az email címet.';
       return;
     }
     if (!this.password) {
@@ -46,17 +32,8 @@ export class RegisterComponent {
       this.message = 'A két jelszó nem egyezik.';
       return;
     }
-
-    this.auth.register({ username, email, password: this.password }).subscribe({
-      next: () => {
-        // A TI backendetek jelenleg a regisztrációnál nem ad vissza tokent,
-        // ezért regisztráció után a belépés oldalra dobunk.
-        this.router.navigate(['/login'], { queryParams: { u: username } });
-      },
-      error: (err) => {
-        const msg = err?.error?.message || err?.message || 'Nem sikerült a regisztráció.';
-        this.message = msg;
-      }
-    });
+    // UI-only: profil létrehozása (backend/db nélkül)
+    this.auth.register(this.email.trim());
+    this.router.navigate(['/profile']);
   }
 }
