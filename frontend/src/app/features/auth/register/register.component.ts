@@ -13,6 +13,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './register.component.css',
 })
 export class RegisterComponent {
+  username = '';
   email = '';
   password = '';
   password2 = '';
@@ -25,7 +26,13 @@ export class RegisterComponent {
   submit(): void {
     this.message = '';
 
+    const username = this.username.trim();
     const email = this.email.trim();
+
+    if (!username) {
+      this.message = 'Add meg a nevet (felhasználónevet).';
+      return;
+    }
     if (!email) {
       this.message = 'Add meg az email címet.';
       return;
@@ -38,8 +45,6 @@ export class RegisterComponent {
       this.message = 'A két jelszó nem egyezik.';
       return;
     }
-
-    const username = this.deriveUsername(email);
 
     this.loading = true;
 
@@ -55,11 +60,5 @@ export class RegisterComponent {
         this.message = backendMsg ?? err.message ?? 'Sikertelen regisztráció.';
       },
     });
-  }
-
-  private deriveUsername(email: string): string {
-    const at = email.indexOf('@');
-    const base = at > 0 ? email.slice(0, at) : email;
-    return base || 'user';
   }
 }

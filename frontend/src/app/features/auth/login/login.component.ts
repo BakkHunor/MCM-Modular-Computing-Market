@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  email = '';
+  username = '';
   password = '';
   remember = true;
 
@@ -25,9 +25,9 @@ export class LoginComponent {
   submit(): void {
     this.message = '';
 
-    const username = this.email.trim();
+    const username = this.username.trim();
     if (!username) {
-      this.message = 'Add meg a felhasználónevet.';
+      this.message = 'Add meg a nevet (felhasználónevet).';
       return;
     }
     if (!this.password) {
