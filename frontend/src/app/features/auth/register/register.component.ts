@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
+import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -15,12 +16,17 @@ export class RegisterComponent {
   email = '';
   password = '';
   password2 = '';
+
   message = '';
+  loading = false;
 
   constructor(private auth: AuthService, private router: Router) {}
 
   submit(): void {
-    if (!this.email.trim()) {
+    this.message = '';
+
+    const email = this.email.trim();
+    if (!email) {
       this.message = 'Add meg az email címet.';
       return;
     }
@@ -32,8 +38,28 @@ export class RegisterComponent {
       this.message = 'A két jelszó nem egyezik.';
       return;
     }
-    // UI-only: profil létrehozása (backend/db nélkül)
-    this.auth.register(this.email.trim());
-    this.router.navigate(['/profile']);
+
+    const username = this.deriveUsername(email);
+
+    this.loading = true;
+
+    this.auth.register(username, email, this.password).subscribe({
+      next: () => {
+        this.loading = false;
+        // reg után login oldalra
+        this.router.navigate(['/login']);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.loading = false;
+        const backendMsg = (err.error as any)?.message;
+        this.message = backendMsg ?? err.message ?? 'Sikertelen regisztráció.';
+      },
+    });
+  }
+
+  private deriveUsername(email: string): string {
+    const at = email.indexOf('@');
+    const base = at > 0 ? email.slice(0, at) : email;
+    return base || 'user';
   }
 }
