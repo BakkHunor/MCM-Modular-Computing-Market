@@ -1,0 +1,40 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Üdvözlünk!</h1>
+
+    <div class="field">
+      <span class="icon" aria-hidden="true">👤</span>
+      <input
+        [(ngModel)]="username"
+        type="text"
+        placeholder="Név (felhasználónév)"
+        autocomplete="username"
+      />
+    </div>
+
+    <div class="field">
+      <span class="icon" aria-hidden="true">🔒</span>
+      <input
+        [(ngModel)]="password"
+        type="password"
+        placeholder="Jelszó"
+        autocomplete="current-password"
+      />
+    </div>
+
+    <label class="remember">
+      <input type="checkbox" [(ngModel)]="remember" />
+      <span>Emlékezz rám</span>
+    </label>
+
+    <button class="primary" type="button" (click)="submit()" [disabled]="loading">
+      {{ loading ? 'Folyamatban...' : 'Belépés' }}
+    </button>
+
+    <div class="msg" *ngIf="message">{{ message }}</div>
+
+    <p class="bottom">
+      Nincs még fiókod? <a routerLink="/register">Regisztráció</a>
+    </p>
+  </div>
+</div>

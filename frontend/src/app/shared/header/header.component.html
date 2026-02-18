@@ -1,0 +1,78 @@
+<header class="nav">
+  <a class="brand" routerLink="/" (click)="closeMenu()">
+    <img class="brand-logo" src="assets/mcm-mark.png" alt="MCM" />
+  </a>
+
+  <div class="search" *ngIf="!hideSearch">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      (keyup.enter)="onSearch()"
+      placeholder="Keresés (pl. FIFA, RTX, Steam…)"
+      aria-label="Keresés"
+    />
+    <button type="button" class="btn" (click)="onSearch()">Keresés</button>
+  </div>
+
+  <nav class="links">
+  <div class="cartwrap" (mouseenter)="openCart()" (mouseleave)="closeCart()">
+      <a class="cartbtn" routerLink="/cart" aria-label="Kosár">
+        <span class="carticon">🛒</span>
+        <span class="badge" *ngIf="cart.count > 0">{{ cart.count }}</span>
+      </a>
+
+      <div class="cartdrop" *ngIf="cartOpen">
+        <div class="cdhead">
+          <div class="cdtitle">Kosár</div>
+          <button type="button" class="cdclear" (click)="cart.clear()">Törlés</button>
+        </div>
+
+        <div class="cdempty" *ngIf="cart.items.length === 0">A kosarad üres.</div>
+
+        <div class="cditem" *ngFor="let it of cart.items">
+          <img class="cdimg" [src]="it.product.imageUrl" [alt]="it.product.name" />
+          <div class="cdmid">
+            <div class="cdname">{{ it.product.name }}</div>
+            <div class="cdmeta">{{ it.quantity }} × {{ it.product.price | number }} Ft</div>
+          </div>
+          <div class="cdqty">
+            <button type="button" (click)="cart.dec(it.product.id)">–</button>
+            <button type="button" (click)="cart.inc(it.product.id)">+</button>
+          </div>
+        </div>
+
+        <div class="cdf" *ngIf="cart.items.length > 0">
+          <div class="cdtotal">
+            <span>Összesen</span>
+            <strong>{{ cart.subtotal | number }} Ft</strong>
+          </div>
+          <a class="cdcta" routerLink="/checkout">Fizetés</a>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="!auth.isLoggedIn; else logged">
+      <ng-container *ngIf="!hideAuthLinks">
+        <a class="link" routerLink="/login">Belépés</a>
+        <a class="btn primary" routerLink="/register">Regisztráció</a>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #logged>
+      <button type="button" class="profile-btn" (click)="toggleMenu()" aria-haspopup="menu" [attr.aria-expanded]="menuOpen">
+        <span class="avatar" aria-hidden="true">{{ (auth.profile?.username || 'U')[0] | uppercase }}</span>
+        <span class="profile-label">{{ auth.profile?.username }}</span>
+        <span class="chev" aria-hidden="true">▾</span>
+      </button>
+
+      <div class="menu" *ngIf="menuOpen" (mouseleave)="closeMenu()">
+        <div class="menu-head" *ngIf="auth.profile as p">
+          <div class="menu-user">{{ p.username }}</div>
+          <div class="menu-email">{{ p.email }}</div>
+        </div>
+        <a routerLink="/profile" (click)="closeMenu()">Profil</a>
+        <button type="button" (click)="logout()">Kijelentkezés</button>
+      </div>
+    </ng-template>
+  </nav>
+</header>

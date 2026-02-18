@@ -1,0 +1,56 @@
+/* Global styles (MCM theme) */
+:root{
+  /* MCM paletta (domináns: zöldes, másodlagos: lila, harmadik: fehéres) */
+  --bg0: #E5E9B2;          /* zöldes alap */
+  --bg1: #B5899D;          /* lila */          /* lila (csak finom kiemelés) */
+  --paper: #F3EFEF;        /* fehéres felületekhez */
+
+  --accent: #886840;       /* barna kiemelő */
+  --accent-hover: #7a5c39;
+
+  --text: #2b2a24;         /* fő szöveg */
+  --muted: rgba(43,42,36,0.72);
+
+  --card: rgba(181,137,157,0.16);
+  --card-strong: rgba(181,137,157,0.22);
+
+  --border: rgba(136,104,64,0.30);
+  --outline: rgba(136,104,64,0.62);
+
+  --shadow: 0 18px 45px rgba(0,0,0,0.18);
+}
+
+
+html, body{
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+
+  /* Zöldes alap + ERŐSEBB lila másodlagos réteg (kevesebb fehér) */
+  background-color: var(--bg0);
+  background-image:
+    radial-gradient(820px 520px at 18% 10%, rgba(181,137,157,0.55) 0%, rgba(181,137,157,0.00) 60%),
+    radial-gradient(760px 520px at 88% 18%, rgba(181,137,157,0.42) 0%, rgba(181,137,157,0.00) 62%),
+    radial-gradient(820px 560px at 60% 88%, rgba(181,137,157,0.30) 0%, rgba(181,137,157,0.00) 62%),
+    linear-gradient(180deg, rgba(229,233,178,1.0) 0%, rgba(229,233,178,0.98) 55%, rgba(229,233,178,0.96) 100%);
+  min-height: 100vh;
+}
+
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: var(--text);
+  background: radial-gradient(1100px 600px at 20% 10%, rgba(255,255,255,0.55), rgba(255,255,255,0) 60%),
+              linear-gradient(135deg, var(--bg0), var(--bg1));
+  min-height: 100vh;
+}
+
+
+*{ box-sizing: border-box; }
+
+a{ color: inherit; }
+
+.container{
+  width: min(1180px, calc(100% - 36px));
+  margin: 0 auto;
+}
