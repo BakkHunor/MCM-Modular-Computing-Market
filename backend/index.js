@@ -17,6 +17,7 @@ app.use('/api/cart', require('./src/routes/cart.routes'));
 app.use('/api/orders', require('./src/routes/order.routes'));
 app.use('/api/checkout', require('./src/routes/checkout.routes'));
 app.use('/api/products', require('./src/routes/product.routes'));
+app.use('/uploads', express.static('uploads'));
 
 
 
