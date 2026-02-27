@@ -197,3 +197,95 @@
 .cdf{ padding:12px 14px; border-top:1px solid rgba(136,104,64,0.22); }
 .cdtotal{ display:flex; justify-content:space-between; font-weight:950; }
 .cdcta{ display:block; margin-top:10px; text-align:center; padding:11px; border-radius:14px; border:1px solid rgba(136,104,64,0.75); background: linear-gradient(180deg, var(--accent) 0%, rgba(136,104,64,0.75) 100%); color:#111; font-weight:950; text-decoration:none; }
+
+
+
+/* ===================================== */
+/* ===== MCM GTA6 VAPOR THEME ========== */
+/* ===================================== */
+
+/* GTA 6 sunset vapor gradient */
+html, body {
+    background: linear-gradient(
+        180deg,
+        #ff8fb1 0%,
+        #ff9671 25%,
+        #c77dff 60%,
+        #5e60ce 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: #ffffff !important;
+}
+
+/* Soft glow overlay */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.15), transparent 40%),
+                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent 40%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Make sure content stays above overlay */
+body * {
+    position: relative;
+    z-index: 1;
+}
+
+/* ALL TEXT WHITE */
+* {
+    color: #ffffff !important;
+}
+
+/* ALL BUTTONS BABY BLUE */
+button,
+.btn,
+input[type="submit"],
+input[type="button"],
+a.button,
+.megnezem,
+.regisztracio,
+.register,
+.login {
+    background-color: #a5d8ff !important;
+    color: #0f172a !important;
+    border: 2px solid #a5d8ff !important;
+    box-shadow: 0 0 20px rgba(165,216,255,0.7);
+    transition: all 0.3s ease;
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #74c0fc !important;
+    box-shadow: 0 0 30px rgba(165,216,255,1);
+}
+
+/* Inputs */
+input,
+select,
+textarea {
+    background-color: rgba(0,0,0,0.25) !important;
+    color: #ffffff !important;
+    border: 2px solid #a5d8ff !important;
+}
+
+/* Cards */
+.card,
+.product-card,
+.box,
+.container {
+    background: rgba(0,0,0,0.25) !important;
+    backdrop-filter: blur(6px);
+    border: 2px solid #a5d8ff !important;
+    box-shadow: 0 0 25px rgba(0,0,0,0.3);
+}
+
+/* Links */
+a {
+    color: #ffffff !important;
+}

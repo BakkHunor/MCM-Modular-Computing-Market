@@ -7,12 +7,19 @@
 
     <div class="group">
       <label>Keresés</label>
-      <div class="value small">{{ q || '—' }}</div>
+      <input [(ngModel)]="q" (input)="applyFilters()" />
     </div>
 
     <div class="group">
       <label>Max ár: <span class="accent">{{ maxPrice | number }} Ft</span></label>
-      <input type="range" min="0" max="200000" step="500" [(ngModel)]="maxPrice" (input)="applyFilters()" />
+      <input
+        type="range"
+        min="0"
+        max="1000000"
+        step="500"
+        [(ngModel)]="maxPrice"
+        (input)="applyFilters()"
+      />
     </div>
 
     <div class="group">
@@ -32,16 +39,6 @@
         <option *ngFor="let p of platforms" [value]="p">{{ p }}</option>
       </select>
     </div>
-
-    <div class="group">
-      <label>Rendezés</label>
-      <select [(ngModel)]="sort" (change)="applyFilters()">
-        <option value="relevance">Relevancia</option>
-        <option value="price-asc">Ár növekvő</option>
-        <option value="price-desc">Ár csökkenő</option>
-        <option value="name-asc">Név A–Z</option>
-      </select>
-    </div>
   </aside>
 
   <main class="content">
@@ -58,7 +55,8 @@
 
     <div class="grid" *ngIf="filtered.length > 0">
       <a class="card" *ngFor="let p of filtered" [routerLink]="['/product', p.id]">
-        <img [src]="p.imageUrl" [alt]="p.name" />
+        <img [src]="imageSrc(p)" [alt]="p.name" />
+
         <div class="body">
           <div class="name">{{ p.name }}</div>
           <div class="meta">

@@ -1,92 +1,63 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Profile {
+  email: string;
   username: string;
-  email?: string;
 }
 
-const PROFILE_KEY = 'mcm_profile';
-const TOKEN_KEY = 'mcm_token';
-
-type LoginResponse = { token: string };
+const KEY = 'mcm_profile';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  // ⬇️ Itt állítsd a backend URL-t ha kell
-  private readonly baseUrl = 'http://localhost:3000';
-
-  private readonly _profile$ = new BehaviorSubject<Profile | null>(this.readProfile());
+  private readonly _profile$ = new BehaviorSubject<Profile | null>(this.read());
   readonly profile$ = this._profile$.asObservable();
-
-  constructor(private http: HttpClient) {}
 
   get profile(): Profile | null {
     return this._profile$.value;
   }
 
   get isLoggedIn(): boolean {
-    return !!this.getToken();
+    return !!this._profile$.value;
   }
 
-  /** LOGIN: { username, password } -> { token } */
-  login(username: string, password: string, remember: boolean = true): Observable<void> {
-    return this.http
-      .post<LoginResponse>(`${this.baseUrl}/api/auth/login`, { username, password })
-      .pipe(
-        tap((res) => this.storeToken(res.token, remember)),
-        tap(() => {
-          const profile: Profile = { username };
-          this.storeProfile(profile, remember);
-          this._profile$.next(profile);
-        }),
-        map(() => void 0)
-      );
+  login(email: string, remember: boolean = true): void {
+    const username = this.deriveUsername(email);
+    const profile: Profile = { email, username };
+    // UI-only: "Remember me" → localStorage, különben sessionStorage
+    if (remember) {
+      localStorage.setItem(KEY, JSON.stringify(profile));
+      sessionStorage.removeItem(KEY);
+    } else {
+      sessionStorage.setItem(KEY, JSON.stringify(profile));
+      localStorage.removeItem(KEY);
+    }
+    this._profile$.next(profile);
   }
 
-  /** REGISTER: { username, email, password } */
-  register(username: string, email: string, password: string): Observable<void> {
-    return this.http.post<void>(`${this.baseUrl}/api/auth/register`, {
-      username,
-      email,
-      password,
-    });
+  register(email: string): void {
+    // UI-only demo: ugyanazt csináljuk, mint a login-nál
+    this.login(email);
   }
 
   logout(): void {
-    localStorage.removeItem(PROFILE_KEY);
-    sessionStorage.removeItem(PROFILE_KEY);
-    localStorage.removeItem(TOKEN_KEY);
-    sessionStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(KEY);
+    sessionStorage.removeItem(KEY);
     this._profile$.next(null);
   }
 
-  getToken(): string | null {
-    return localStorage.getItem(TOKEN_KEY) ?? sessionStorage.getItem(TOKEN_KEY);
-  }
-
-  // --------- helpers ---------
-
-  private storeToken(token: string, remember: boolean): void {
-    const storage = remember ? localStorage : sessionStorage;
-    storage.setItem(TOKEN_KEY, token);
-    (remember ? sessionStorage : localStorage).removeItem(TOKEN_KEY);
-  }
-
-  private storeProfile(profile: Profile, remember: boolean): void {
-    const storage = remember ? localStorage : sessionStorage;
-    storage.setItem(PROFILE_KEY, JSON.stringify(profile));
-    (remember ? sessionStorage : localStorage).removeItem(PROFILE_KEY);
-  }
-
-  private readProfile(): Profile | null {
+  private read(): Profile | null {
     try {
-      const raw = localStorage.getItem(PROFILE_KEY) || sessionStorage.getItem(PROFILE_KEY);
+      const raw = localStorage.getItem(KEY) || sessionStorage.getItem(KEY);
       return raw ? (JSON.parse(raw) as Profile) : null;
     } catch {
       return null;
     }
+  }
+
+  private deriveUsername(email: string): string {
+    const at = email.indexOf('@');
+    const base = at > 0 ? email.slice(0, at) : email;
+    return base || 'user';
   }
 }

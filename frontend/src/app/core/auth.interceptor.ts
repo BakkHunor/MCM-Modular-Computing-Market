@@ -1,24 +1,30 @@
-import { inject } from '@angular/core';
 import { HttpInterceptorFn } from '@angular/common/http';
-import { AuthService } from '../services/auth.service';
 
-/**
- * Minden /api kéréshez hozzáadja az Authorization: Bearer <token> fejlécet, ha van token.
- */
+const SESSION_KEY = 'mcm_session_id';
+const TOKEN_KEY = 'mcm_token';
+
+function makeSessionId(): string {
+  return (crypto as any)?.randomUUID?.() ?? Math.random().toString(36).slice(2);
+}
+
+function getOrCreateSessionId(): string {
+  const existing = localStorage.getItem(SESSION_KEY);
+  if (existing) return existing;
+
+  const sid = makeSessionId();
+  localStorage.setItem(SESSION_KEY, sid);
+  return sid;
+}
+
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const auth = inject(AuthService);
-  const token = auth.token;
+  const sessionId = getOrCreateSessionId();
+  const token = localStorage.getItem(TOKEN_KEY);
 
-  // Csak az API hívásokhoz adjuk hozzá a tokent.
-  if (!token || !req.url.startsWith('/api')) {
-    return next(req);
+  let headers = req.headers.set('x-session-id', sessionId);
+
+  if (token) {
+    headers = headers.set('Authorization', `Bearer ${token}`);
   }
 
-  const authReq = req.clone({
-    setHeaders: {
-      Authorization: `Bearer ${token}`
-    }
-  });
-
-  return next(authReq);
+  return next(req.clone({ headers }));
 };

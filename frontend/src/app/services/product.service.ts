@@ -1,118 +1,93 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, shareReplay } from 'rxjs';
 import { Product } from '../models/product.model';
+
+type ApiProduct = {
+  product_id: number;
+  name: string;
+  category: 'gamekey' | 'giftcard' | 'hardware';
+  price: number;
+  stock: number;
+  require_login: boolean;
+  image_url: string | null;
+};
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  // MOCK ADATOK (amíg a backend nincs kész)
-  private readonly mockProducts: Product[] = [
-    {
-      id: '1',
-      name: 'EA SPORTS FC 26 (PC) - Key',
-      category: 'game-key',
-      price: 23990,
-      platform: 'EA App',
-      imageUrl: 'https://via.placeholder.com/400x250?text=FC+26',
-      isFeatured: true,
-    },
-    {
-      id: '2',
-      name: 'Cyberpunk 2077 (Steam) - Key',
-      category: 'game-key',
-      price: 12990,
-      platform: 'Steam',
-      imageUrl: 'https://via.placeholder.com/400x250?text=Cyberpunk+2077',
-      isFeatured: true,
-    },
-    {
-      id: '3',
-      name: 'Steam Gift Card 20 EUR',
-      category: 'gift-card',
-      price: 7990,
-      platform: 'Steam',
-      imageUrl: 'https://via.placeholder.com/400x250?text=Steam+20EUR',
-      isFeatured: true,
-    },
-    {
-      id: '4',
-      name: 'NVIDIA GeForce RTX 4060 8GB',
-      category: 'hardware',
-      price: 124990,
-      imageUrl: 'https://via.placeholder.com/400x250?text=RTX+4060',
-      isFeatured: true,
-    },
-    {
-      id: '5',
-      name: 'AMD Ryzen 7 7800X3D',
-      category: 'hardware',
-      price: 149990,
-      imageUrl: 'https://via.placeholder.com/400x250?text=Ryzen+7800X3D',
-    },
-    {
-      id: '6',
-      name: 'PlayStation Store Gift Card 10 000 HUF',
-      category: 'gift-card',
-      price: 10990,
-      platform: 'PSN',
-      imageUrl: 'https://via.placeholder.com/400x250?text=PSN+Gift+Card',
-    },
-    {
-      id: '7',
-      name: 'Windows 11 Pro (OEM) - Key',
-      category: 'game-key',
-      price: 6990,
-      platform: 'Windows',
-      imageUrl: 'https://via.placeholder.com/400x250?text=Win11+Pro',
-    },
-    {
-      id: '8',
-      name: 'Corsair Vengeance 32GB DDR5 6000',
-      category: 'hardware',
-      price: 44990,
-      imageUrl: 'https://via.placeholder.com/400x250?text=DDR5+32GB',
-    },
-    {
-      id: '9',
-      name: 'Elden Ring (Steam) - Key',
-      category: 'game-key',
-      price: 17990,
-      platform: 'Steam',
-      imageUrl: 'https://via.placeholder.com/400x250?text=Elden+Ring',
-    },
-    {
-      id: '10',
-      name: 'Xbox Gift Card 15 EUR',
-      category: 'gift-card',
-      price: 6490,
-      platform: 'Xbox',
-      imageUrl: 'https://via.placeholder.com/400x250?text=Xbox+15EUR',
-    },
-    {
-      id: '11',
-      name: 'Samsung 990 PRO 1TB NVMe SSD',
-      category: 'hardware',
-      price: 39990,
-      imageUrl: 'https://via.placeholder.com/400x250?text=NVMe+1TB',
-    },
-    {
-      id: '12',
-      name: 'Minecraft Java & Bedrock (PC) - Key',
-      category: 'game-key',
-      price: 9990,
-      platform: 'Microsoft',
-      imageUrl: 'https://via.placeholder.com/400x250?text=Minecraft',
-    },
-  ];
+  private readonly baseUrl = 'http://localhost:3000';
+
+  // cache-eljük a listát, hogy home + listing + detail ne lőjön külön-külön 10 requestet
+  private readonly products$: Observable<Product[]> = this.http
+    .get<ApiProduct[]>(`${this.baseUrl}/api/products`)
+    .pipe(
+      map((list) => list.map((p) => this.mapToUi(p))),
+      shareReplay(1)
+    );
+
+  constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
-    return of(this.mockProducts);
+    return this.products$;
   }
 
   getById(id: string): Observable<Product | undefined> {
-    return of(this.mockProducts.find((p) => p.id === id));
+    return this.products$.pipe(map((list) => list.find((p) => p.id === id)));
   }
 
   getFeatured(): Observable<Product[]> {
-    return of(this.mockProducts.filter((p) => p.isFeatured));
+    // ha a modelben van isFeatured, akkor az alapján
+    // ha nincs, akkor pl. az első 6-ot adjuk (design miatt)
+    return this.products$.pipe(
+      map((list) => {
+        const anyFeatured = list.some((p: any) => (p as any).isFeatured === true);
+        if (anyFeatured) return list.filter((p: any) => (p as any).isFeatured === true);
+        return list.slice(0, 6);
+      })
+    );
+  }
+
+private mapToUi(p: ApiProduct): Product {
+    const category =
+      p.category === 'gamekey'
+        ? 'game-key'
+        : p.category === 'giftcard'
+        ? 'gift-card'
+        : 'hardware';
+
+    // Ha van image_url a backend-től, használjuk, különben placeholder
+    const imageUrl = p.image_url 
+      ? `http://localhost:3000/uploads/${p.image_url}`
+      : this.imageFor(category);
+
+    return {
+      id: String(p.product_id),
+      name: p.name,
+      category: category as any,
+      price: Number(p.price),
+      platform: this.derivePlatform(p.name),
+      imageUrl,
+      isFeatured: false,
+      stock: p.stock,
+      requiresLogin: !!p.require_login,
+    } as Product;
+  }
+
+  private derivePlatform(name: string): string | undefined {
+    const n = name.toLowerCase();
+    if (n.includes('steam')) return 'Steam';
+    if (n.includes('psn') || n.includes('playstation')) return 'PSN';
+    if (n.includes('xbox')) return 'Xbox';
+    if (n.includes('ea')) return 'EA App';
+    if (n.includes('microsoft')) return 'Microsoft';
+    if (n.includes('windows')) return 'Windows';
+    return undefined;
+  }
+
+  private imageFor(category: string): string {
+    // ✅ via.placeholder helyett placehold.co, mert nálad a via DNS hibát dob
+    if (category === 'game-key') return 'https://placehold.co/400x250?text=Game+Key';
+    if (category === 'gift-card') return 'https://placehold.co/400x250?text=Gift+Card';
+    return 'https://placehold.co/400x250?text=Hardware';
   }
 }
