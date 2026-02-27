@@ -2,7 +2,7 @@
   <a class="back" routerLink="/search">← Vissza a találatokhoz</a>
 
   <div class="card">
-    <img class="img" [src]="product.imageUrl" [alt]="product.name" />
+    <img class="img" [src]="imageSrc(product)" [alt]="product.name" />
 
     <div class="body">
       <div class="title">{{ product.name }}</div>
@@ -15,12 +15,9 @@
       <div class="price">{{ product.price | number }} Ft</div>
 
       <p class="desc">
-        (Bemutató) Később a backendből jön a leírás, készlet, kupon, kosár és a fizetés.
       </p>
 
-      <button class="btn" type="button" (click)="addToCart()">
-        Kosárba
-      </button>
+      <button class="btn" type="button" (click)="addToCart()">Kosárba</button>
     </div>
   </div>
 </div>
@@ -28,7 +25,7 @@
 <ng-template #notFound>
   <div class="wrap">
     <div class="nf">
-      Nincs ilyen termék (mock adatokban).
+      Nincs ilyen termék.
       <a routerLink="/search">Vissza</a>
     </div>
   </div>

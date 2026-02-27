@@ -3,23 +3,13 @@
     <h1>Üdvözlünk!</h1>
 
     <div class="field">
-      <span class="icon" aria-hidden="true">👤</span>
-      <input
-        [(ngModel)]="username"
-        type="text"
-        placeholder="Név (felhasználónév)"
-        autocomplete="username"
-      />
+      <span class="icon" aria-hidden="true">✉️</span>
+      <input [(ngModel)]="email" type="email" placeholder="Email" autocomplete="email" />
     </div>
 
     <div class="field">
       <span class="icon" aria-hidden="true">🔒</span>
-      <input
-        [(ngModel)]="password"
-        type="password"
-        placeholder="Jelszó"
-        autocomplete="current-password"
-      />
+      <input [(ngModel)]="password" type="password" placeholder="Jelszó" autocomplete="current-password" />
     </div>
 
     <label class="remember">
@@ -27,9 +17,7 @@
       <span>Emlékezz rám</span>
     </label>
 
-    <button class="primary" type="button" (click)="submit()" [disabled]="loading">
-      {{ loading ? 'Folyamatban...' : 'Belépés' }}
-    </button>
+    <button class="primary" type="button" (click)="submit()">Belépés</button>
 
     <div class="msg" *ngIf="message">{{ message }}</div>
 

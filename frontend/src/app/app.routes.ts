@@ -10,19 +10,13 @@ import { CheckoutComponent } from './features/checkout/checkout.component';
 import { ProfileComponent } from './features/profile/profile.component';
 
 export const routes: Routes = [
-  // legyen rendes default route
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-
+  { path: '', component: HomeComponent },
   { path: 'search', component: ProductListingComponent },
   { path: 'product/:id', component: ProductDetailComponent },
-
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-
   { path: 'profile', component: ProfileComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
-
-  // ✅ fallback: mindent a főoldalra (de ne kavarjon)
   { path: '**', redirectTo: '' },
 ];

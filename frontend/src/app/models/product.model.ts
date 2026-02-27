@@ -6,6 +6,8 @@ export interface Product {
   category: ProductCategory;
   price: number;
   imageUrl: string;
-  platform?: string; // Steam, PS5, Xbox, Origin, etc.
+  platform?: string;
   isFeatured?: boolean;
+  stock?: number;
+  requiresLogin?: boolean;
 }

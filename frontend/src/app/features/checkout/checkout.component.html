@@ -29,7 +29,15 @@
           <span>Elfogadom a <u>Feltételeket</u>.</span>
         </label>
 
-        <button class="pay" type="button" (click)="pay()">Fizetés</button>
+        <button class="pay" type="button" (click)="pay()" [disabled]="loading">
+          {{ loading ? 'Fizetés...' : 'Fizetés' }}
+        </button>
+
+        <!-- Meglévő üzenet (megtartjuk) -->
+        <div class="msg" *ngIf="message">{{ message }}</div>
+
+        <!-- Új: hiba üzenet (ha külön kezeled) -->
+        <div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
       </div>
     </aside>
   </div>
@@ -37,4 +45,14 @@
   <ng-template #empty>
     <div class="empty">A kosarad üres.</div>
   </ng-template>
+
+  <!-- Új: Sikeres vásárlás overlay + visszaszámláló -->
+  <div class="success-overlay" *ngIf="successOpen">
+    <div class="success-card">
+      <div class="success-title">Sikeres vásárlás!</div>
+      <div class="success-sub">
+        Visszairányítás a főoldalra: <strong>{{ secondsLeft }}</strong>…
+      </div>
+    </div>
+  </div>
 </div>
