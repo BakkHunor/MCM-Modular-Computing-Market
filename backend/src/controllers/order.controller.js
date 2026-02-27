@@ -34,7 +34,9 @@ exports.checkout = async (req, res) => {
     }
 
     let total = 0;
+    let containsHardware = false;
 
+    // Kosár ellenőrzés + hardware vizsgálat
     for (const item of cartItems) {
 
       const product = await Product.findByPk(item.product_id, { transaction: t });
@@ -54,16 +56,89 @@ exports.checkout = async (req, res) => {
         });
       }
 
+      // HARDWARE CATEGORY CHECK
+      if (product.category === "hardware") {
+        containsHardware = true;
+      }
+
       total += Number(product.price) * item.quantity;
     }
 
+    // Ha hardware van a kosárban → kötelező shipping + validáció
+    if (containsHardware) {
+
+      const {
+        first_name,
+        last_name,
+        email,
+        phone,
+        zip_code,
+        city,
+        address_line
+      } = req.body;
+
+      if (
+        !first_name ||
+        !last_name ||
+        !email ||
+        !phone ||
+        !zip_code ||
+        !city ||
+        !address_line
+      ) {
+        await t.rollback();
+        return res.status(400).json({
+          message: "Hardware rendeléshez kötelező a szállítási adatok megadása."
+        });
+      }
+
+      // 📧 Email ellenőrzés
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        await t.rollback();
+        return res.status(400).json({
+          message: "Érvénytelen email formátum."
+        });
+      }
+
+      // 📱 Telefonszám ellenőrzés (magyar)
+      const phoneRegex = /^(?:\+36|06)\s?(20|30|70)\s?\d{3}\s?\d{4}$/;
+      if (!phoneRegex.test(phone)) {
+        await t.rollback();
+        return res.status(400).json({
+          message: "Érvénytelen magyar telefonszám."
+        });
+      }
+
+      // 📮 Irányítószám ellenőrzés
+      const zipRegex = /^\d{4}$/;
+      if (!zipRegex.test(zip_code)) {
+        await t.rollback();
+        return res.status(400).json({
+          message: "Érvénytelen irányítószám (4 számjegy szükséges)."
+        });
+      }
+    }
+
+    // Rendelés létrehozása
     const order = await Order.create({
       user_id,
       session_id,
       total_amount: total,
-      status: 'pending'
+      status: 'pending',
+
+      first_name: req.body.first_name || null,
+      last_name: req.body.last_name || null,
+      email: req.body.email || null,
+      phone: req.body.phone || null,
+      zip_code: req.body.zip_code || null,
+      city: req.body.city || null,
+      address_line: req.body.address_line || null,
+      additional_info: req.body.additional_info || null
+
     }, { transaction: t });
 
+    // OrderDetail + stock csökkentés
     for (const item of cartItems) {
 
       const product = await Product.findByPk(item.product_id, { transaction: t });
@@ -79,6 +154,7 @@ exports.checkout = async (req, res) => {
       await product.save({ transaction: t });
     }
 
+    // Kosár ürítése
     await CartItem.destroy({
       where: whereClause,
       transaction: t
