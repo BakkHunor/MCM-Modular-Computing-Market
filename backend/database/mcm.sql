@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Feb 19. 09:31
+-- Létrehozás ideje: 2026. Feb 27. 09:09
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -169,15 +169,23 @@ CREATE TABLE `orders` (
   `status` enum('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
   `payment_method` enum('card','paypal','bank','none') DEFAULT 'none',
   `payment_id` varchar(100) DEFAULT NULL,
-  `total_amount` decimal(10,2) DEFAULT 0.00
+  `total_amount` decimal(10,2) DEFAULT 0.00,
+  `first_name` varchar(100) NOT NULL,
+  `last_name` varchar(100) NOT NULL,
+  `email` varchar(150) NOT NULL,
+  `phone` varchar(30) NOT NULL,
+  `zip_code` varchar(20) NOT NULL,
+  `city` varchar(100) NOT NULL,
+  `address_line` varchar(255) NOT NULL,
+  `additional_info` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `session_id`, `order_date`, `status`, `payment_method`, `payment_id`, `total_amount`) VALUES
-(1, 3, NULL, '2026-02-15 18:53:02', 'pending', 'none', NULL, 85000.00);
+INSERT INTO `orders` (`order_id`, `user_id`, `session_id`, `order_date`, `status`, `payment_method`, `payment_id`, `total_amount`, `first_name`, `last_name`, `email`, `phone`, `zip_code`, `city`, `address_line`, `additional_info`) VALUES
+(1, 3, NULL, '2026-02-15 18:53:02', 'pending', 'none', NULL, 85000.00, '', '', '', '', '', '', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -298,7 +306,6 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `created_at`) VALUES
 (1, 'Teszt', 'test@gmail.com', 'tesztfelhasznalo1', '2026-02-11 09:07:15'),
-(2, 'Marci', 'halaszmarcell75@gmail.com', 'marci2006', '2026-02-11 09:07:15'),
 (3, 'asdasd1', 'asdasd12@gmail.com', '$2b$10$p6BTVfRuZofADjU972fEBeD8RyKPW0J6NyZ27DcLzFMjz85g6WF5e', '2026-02-15 18:48:04');
 
 --
