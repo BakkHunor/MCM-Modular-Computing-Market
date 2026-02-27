@@ -38,7 +38,6 @@ exports.checkout = async (req, res) => {
 
     let totalAmount = 0;
 
-    // ORDER LÉTREHOZÁS
     const order = await Order.create({
       user_id,
       session_id,
@@ -60,14 +59,12 @@ exports.checkout = async (req, res) => {
         throw new Error(`Nincs elég készlet: ${product.name}`);
       }
 
-      // Hardware login ellenőrzés
       if (product.requires_login && !user_id) {
         throw new Error(`A ${product.name} csak bejelentkezve vásárolható`);
       }
 
       totalAmount += Number(product.price) * Number(item.quantity);
 
-      // Order detail
       await OrderDetail.create({
         order_id: order.order_id,
         product_id: product.product_id,
@@ -75,11 +72,9 @@ exports.checkout = async (req, res) => {
         price_at_purchase: product.price
       }, { transaction: t });
 
-      // STOCK CSÖKKENTÉS
       product.stock -= item.quantity;
       await product.save({ transaction: t });
 
-      // GAMEKEY KIOSZTÁS
       if (product.category === 'gamekey') {
 
         for (let i = 0; i < item.quantity; i++) {
@@ -102,7 +97,6 @@ exports.checkout = async (req, res) => {
         }
       }
 
-      // GIFTCARD KIOSZTÁS
       if (product.category === 'giftcard') {
 
         for (let i = 0; i < item.quantity; i++) {
@@ -129,7 +123,6 @@ exports.checkout = async (req, res) => {
     order.total_amount = totalAmount;
     await order.save({ transaction: t });
 
-    // KOSÁR TÖRLÉSE
     await CartItem.destroy({
       where: whereClause,
       transaction: t

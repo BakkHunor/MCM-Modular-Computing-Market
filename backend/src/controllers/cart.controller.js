@@ -21,7 +21,6 @@ exports.addToCart = async (req, res) => {
       return res.status(404).json({ message: "Termék nem található" });
     }
 
-    // LOGIN REQUIRED CHECK
     if (product.requires_login && !user_id) {
       return res.status(401).json({
         message: "Ehhez a termékhez be kell jelentkezni"

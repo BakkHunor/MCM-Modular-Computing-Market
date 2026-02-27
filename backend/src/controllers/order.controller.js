@@ -36,7 +36,6 @@ exports.checkout = async (req, res) => {
     let total = 0;
     let containsHardware = false;
 
-    // Kosár ellenőrzés + hardware vizsgálat
     for (const item of cartItems) {
 
       const product = await Product.findByPk(item.product_id, { transaction: t });
@@ -48,7 +47,6 @@ exports.checkout = async (req, res) => {
         });
       }
 
-      // HARDWARE LOGIN CHECK
       if (product.requires_login && !user_id) {
         await t.rollback();
         return res.status(401).json({
@@ -56,7 +54,6 @@ exports.checkout = async (req, res) => {
         });
       }
 
-      // HARDWARE CATEGORY CHECK
       if (product.category === "hardware") {
         containsHardware = true;
       }
@@ -64,7 +61,6 @@ exports.checkout = async (req, res) => {
       total += Number(product.price) * item.quantity;
     }
 
-    // Ha hardware van a kosárban → kötelező shipping + validáció
     if (containsHardware) {
 
       const {
@@ -91,8 +87,6 @@ exports.checkout = async (req, res) => {
           message: "Hardware rendeléshez kötelező a szállítási adatok megadása."
         });
       }
-
-      // 📧 Email ellenőrzés
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         await t.rollback();
@@ -101,7 +95,6 @@ exports.checkout = async (req, res) => {
         });
       }
 
-      // 📱 Telefonszám ellenőrzés (magyar)
       const phoneRegex = /^(?:\+36|06)\s?(20|30|70)\s?\d{3}\s?\d{4}$/;
       if (!phoneRegex.test(phone)) {
         await t.rollback();
@@ -110,7 +103,6 @@ exports.checkout = async (req, res) => {
         });
       }
 
-      // 📮 Irányítószám ellenőrzés
       const zipRegex = /^\d{4}$/;
       if (!zipRegex.test(zip_code)) {
         await t.rollback();
@@ -120,7 +112,6 @@ exports.checkout = async (req, res) => {
       }
     }
 
-    // Rendelés létrehozása
     const order = await Order.create({
       user_id,
       session_id,
@@ -138,7 +129,6 @@ exports.checkout = async (req, res) => {
 
     }, { transaction: t });
 
-    // OrderDetail + stock csökkentés
     for (const item of cartItems) {
 
       const product = await Product.findByPk(item.product_id, { transaction: t });
@@ -154,7 +144,6 @@ exports.checkout = async (req, res) => {
       await product.save({ transaction: t });
     }
 
-    // Kosár ürítése
     await CartItem.destroy({
       where: whereClause,
       transaction: t

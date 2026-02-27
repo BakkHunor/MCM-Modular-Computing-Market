@@ -29,8 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
 
-    // SHIPPING ADATOK
-
     first_name: {
       type: DataTypes.STRING,
       allowNull: true
