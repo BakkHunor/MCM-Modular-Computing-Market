@@ -7,7 +7,6 @@ exports.register = (req, res) => {
     });
   }
 
-  // db majd később
   res.status(201).json({
     message: 'Felhasználó regisztrálva',
     user: {

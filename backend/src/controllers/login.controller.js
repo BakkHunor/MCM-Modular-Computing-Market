@@ -31,7 +31,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // JWT generálás
     const token = jwt.sign(
       { id: user.user_id, username: user.username },
       process.env.JWT_SECRET,

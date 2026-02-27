@@ -5,19 +5,16 @@ const db = require('../models');
 const Product = db.Product;
 const { Op } = db.Sequelize;
 
-// 🔹 Összes termék + szűrés + keresés + rendezés
 router.get('/', async (req, res) => {
   try {
     const { category, limit, sort, search } = req.query;
 
     const whereClause = {};
 
-    // KATEGÓRIA SZŰRÉS
     if (category) {
       whereClause.category = category;
     }
 
-    // KERESÉS NÉV ALAPJÁN
     if (search) {
       whereClause.name = {
         [Op.like]: `%${search}%`
@@ -26,7 +23,6 @@ router.get('/', async (req, res) => {
 
     const queryOptions = { where: whereClause };
 
-    // RENDEZÉS
     if (sort === "price_asc") {
       queryOptions.order = [["price", "ASC"]];
     }
@@ -35,7 +31,6 @@ router.get('/', async (req, res) => {
       queryOptions.order = [["price", "DESC"]];
     }
 
-    // LIMIT
     if (limit) {
       queryOptions.limit = parseInt(limit);
     }
@@ -51,7 +46,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 🔹 Egy konkrét termék ID alapján
 router.get('/:id', async (req, res) => {
   try {
     const product = await Product.findByPk(req.params.id);

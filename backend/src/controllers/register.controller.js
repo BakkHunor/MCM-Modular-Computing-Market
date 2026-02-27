@@ -20,7 +20,6 @@ if (!passwordRegex.test(password)) {
 }
 
   try {
-    // Jelszó hash
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
