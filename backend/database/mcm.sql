@@ -11,21 +11,10 @@ SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
-
---
--- Adatbázis: `mcm`
---
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `cart_items`
---
 
 CREATE TABLE `cart_items` (
   `cart_item_id` int(11) NOT NULL,
@@ -36,18 +25,8 @@ CREATE TABLE `cart_items` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `cart_items`
---
-
 INSERT INTO `cart_items` (`cart_item_id`, `user_id`, `session_id`, `product_id`, `quantity`, `created_at`) VALUES
 (2, NULL, 'asdasdasdasdd', 2, 1, '2026-02-15 21:44:20');
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `gamekeys`
---
 
 CREATE TABLE `gamekeys` (
   `key_id` int(11) NOT NULL,
@@ -57,10 +36,6 @@ CREATE TABLE `gamekeys` (
   `code` varchar(100) NOT NULL,
   `is_used` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `gamekeys`
---
 
 INSERT INTO `gamekeys` (`key_id`, `product_id`, `game_name`, `platform`, `code`, `is_used`) VALUES
 (1, 1, 'GTA V', 'Steam', 'GTA-STEAM-KEY-001', 0),
@@ -88,12 +63,6 @@ INSERT INTO `gamekeys` (`key_id`, `product_id`, `game_name`, `platform`, `code`,
 (24, 49, 'Marvel\'s Spider-Man 2', 'PlayStation', 'SPIDERMAN2-PLAYSTATION-KEY-001', 0),
 (25, 50, 'Helldivers 2', 'Steam', 'HELLDIVERS2-STEAM-KEY-001', 0);
 
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `giftcards`
---
-
 CREATE TABLE `giftcards` (
   `card_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -102,10 +71,6 @@ CREATE TABLE `giftcards` (
   `code` varchar(100) NOT NULL,
   `is_used` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `giftcards`
---
 
 INSERT INTO `giftcards` (`card_id`, `product_id`, `platform`, `value`, `code`, `is_used`) VALUES
 (1, 2, 'Steam', 20.00, 'STEAM-CARD-001', 0),
@@ -134,12 +99,6 @@ INSERT INTO `giftcards` (`card_id`, `product_id`, `platform`, `value`, `code`, `
 (24, 74, 'Riot', 50.00, 'RIOT-CARD-002', 0),
 (25, 75, 'Steam', 100.00, 'STEAM-CARD-003', 0);
 
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `orderdetails`
---
-
 CREATE TABLE `orderdetails` (
   `detail_id` int(11) NOT NULL,
   `order_id` int(11) NOT NULL,
@@ -148,18 +107,8 @@ CREATE TABLE `orderdetails` (
   `price_at_purchase` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `orderdetails`
---
-
 INSERT INTO `orderdetails` (`detail_id`, `order_id`, `product_id`, `quantity`, `price_at_purchase`) VALUES
 (1, 1, 3, 1, 85000.00);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `orders`
---
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
@@ -180,18 +129,8 @@ CREATE TABLE `orders` (
   `additional_info` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `orders`
---
-
 INSERT INTO `orders` (`order_id`, `user_id`, `session_id`, `order_date`, `status`, `payment_method`, `payment_id`, `total_amount`, `first_name`, `last_name`, `email`, `phone`, `zip_code`, `city`, `address_line`, `additional_info`) VALUES
 (1, 3, NULL, '2026-02-15 18:53:02', 'pending', 'none', NULL, 85000.00, '', '', '', '', '', '', '', NULL);
-
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `products`
---
 
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
@@ -205,10 +144,6 @@ CREATE TABLE `products` (
   `is_active` tinyint(1) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `products`
---
 
 INSERT INTO `products` (`product_id`, `name`, `category`, `requires_login`, `price`, `stock`, `description`, `image_url`, `is_active`, `created_at`) VALUES
 (1, 'GTA V Steam Key', 'gamekey', 0, 5990.00, 10, 'GTA V digitális kulcs', 'gtav.jpg', 1, '2026-02-15 18:44:03'),
@@ -286,12 +221,6 @@ INSERT INTO `products` (`product_id`, `name`, `category`, `requires_login`, `pri
 (74, 'Riot Games Gift Card 50€', 'giftcard', 0, 20000.00, 10, 'Riot Games 50€ digitális ajándékkártya', 'riot_50.jpg', 1, '2026-02-17 08:23:27'),
 (75, 'Steam Wallet 100€', 'giftcard', 0, 38000.00, 5, 'Steam Wallet 100€ digitális ajándékkártya', 'steam_100.jpg', 1, '2026-02-17 08:23:27');
 
--- --------------------------------------------------------
-
---
--- Tábla szerkezet ehhez a táblához `users`
---
-
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
@@ -300,151 +229,78 @@ CREATE TABLE `users` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- A tábla adatainak kiíratása `users`
---
-
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `created_at`) VALUES
 (1, 'Teszt', 'test@gmail.com', 'tesztfelhasznalo1', '2026-02-11 09:07:15'),
 (3, 'asdasd1', 'asdasd12@gmail.com', '$2b$10$p6BTVfRuZofADjU972fEBeD8RyKPW0J6NyZ27DcLzFMjz85g6WF5e', '2026-02-15 18:48:04');
 
---
--- Indexek a kiírt táblákhoz
---
-
---
--- A tábla indexei `cart_items`
---
 ALTER TABLE `cart_items`
   ADD PRIMARY KEY (`cart_item_id`),
   ADD KEY `user_id` (`user_id`),
   ADD KEY `product_id` (`product_id`),
   ADD KEY `session_id` (`session_id`);
 
---
--- A tábla indexei `gamekeys`
---
 ALTER TABLE `gamekeys`
   ADD PRIMARY KEY (`key_id`),
   ADD UNIQUE KEY `code` (`code`),
   ADD KEY `product_id` (`product_id`);
 
---
--- A tábla indexei `giftcards`
---
 ALTER TABLE `giftcards`
   ADD PRIMARY KEY (`card_id`),
   ADD UNIQUE KEY `code` (`code`),
   ADD KEY `product_id` (`product_id`);
 
---
--- A tábla indexei `orderdetails`
---
 ALTER TABLE `orderdetails`
   ADD PRIMARY KEY (`detail_id`),
   ADD KEY `order_id` (`order_id`),
   ADD KEY `product_id` (`product_id`);
 
---
--- A tábla indexei `orders`
---
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
   ADD KEY `user_id` (`user_id`);
 
---
--- A tábla indexei `products`
---
 ALTER TABLE `products`
   ADD PRIMARY KEY (`product_id`);
 
---
--- A tábla indexei `users`
---
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
   ADD UNIQUE KEY `username` (`username`),
   ADD UNIQUE KEY `email` (`email`);
 
---
--- A kiírt táblák AUTO_INCREMENT értéke
---
-
---
--- AUTO_INCREMENT a táblához `cart_items`
---
 ALTER TABLE `cart_items`
   MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
---
--- AUTO_INCREMENT a táblához `gamekeys`
---
 ALTER TABLE `gamekeys`
   MODIFY `key_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
---
--- AUTO_INCREMENT a táblához `giftcards`
---
 ALTER TABLE `giftcards`
   MODIFY `card_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
---
--- AUTO_INCREMENT a táblához `orderdetails`
---
 ALTER TABLE `orderdetails`
   MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT a táblához `orders`
---
 ALTER TABLE `orders`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT a táblához `products`
---
 ALTER TABLE `products`
   MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 
---
--- AUTO_INCREMENT a táblához `users`
---
 ALTER TABLE `users`
   MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
---
--- Megkötések a kiírt táblákhoz
---
-
---
--- Megkötések a táblához `cart_items`
---
 ALTER TABLE `cart_items`
   ADD CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `cart_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
---
--- Megkötések a táblához `gamekeys`
---
 ALTER TABLE `gamekeys`
   ADD CONSTRAINT `gamekeys_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
---
--- Megkötések a táblához `giftcards`
---
 ALTER TABLE `giftcards`
   ADD CONSTRAINT `giftcards_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE;
 
---
--- Megkötések a táblához `orderdetails`
---
 ALTER TABLE `orderdetails`
   ADD CONSTRAINT `orderdetails_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `orderdetails_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
 
---
--- Megkötések a táblához `orders`
---
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 COMMIT;
