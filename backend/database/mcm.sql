@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 04. 12:42
+-- Létrehozás ideje: 2026. Már 04. 20:42
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -56,7 +56,7 @@ CREATE TABLE `gamekeys` (
 --
 
 INSERT INTO `gamekeys` (`key_id`, `product_id`, `game_name`, `platform`, `code`, `is_used`) VALUES
-(1, 1, 'GTA V', 'Steam', 'GTA-STEAM-KEY-001', 0),
+(1, 1, 'Grand Theft Auto V', 'Steam', 'GTA-STEAM-KEY-001', 0),
 (3, 28, 'Cyberpunk 2077', 'Steam', 'CYBERPUNK2077-STEAM-KEY-001', 0),
 (4, 29, 'Red Dead Redemption 2', 'Rockstar', 'RDR2-ROCKSTAR-KEY-001', 0),
 (5, 30, 'Elden Ring', 'Steam', 'ELDENRING-STEAM-KEY-001', 0),
