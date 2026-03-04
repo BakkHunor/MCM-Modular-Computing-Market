@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 02. 12:37
+-- Létrehozás ideje: 2026. Már 04. 12:42
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -35,13 +35,6 @@ CREATE TABLE `cart_items` (
   `quantity` int(11) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- A tábla adatainak kiíratása `cart_items`
---
-
-INSERT INTO `cart_items` (`cart_item_id`, `user_id`, `session_id`, `product_id`, `quantity`, `created_at`) VALUES
-(2, NULL, 'asdasdasdasdd', 2, 1, '2026-02-15 21:44:20');
 
 -- --------------------------------------------------------
 
@@ -153,7 +146,11 @@ CREATE TABLE `orderdetails` (
 --
 
 INSERT INTO `orderdetails` (`detail_id`, `order_id`, `product_id`, `quantity`, `price_at_purchase`) VALUES
-(1, 1, 3, 1, 85000.00);
+(4, 4, 3, 1, 85000.00),
+(7, 7, 1, 2, 5990.00),
+(9, 9, 1, 1, 5990.00),
+(10, 10, 4, 1, 85000.00),
+(11, 10, 1, 1, 5990.00);
 
 -- --------------------------------------------------------
 
@@ -170,13 +167,13 @@ CREATE TABLE `orders` (
   `payment_method` enum('card','paypal','bank','none') DEFAULT 'none',
   `payment_id` varchar(100) DEFAULT NULL,
   `total_amount` decimal(10,2) DEFAULT 0.00,
-  `first_name` varchar(100) NOT NULL,
-  `last_name` varchar(100) NOT NULL,
+  `first_name` varchar(255) DEFAULT NULL,
+  `last_name` varchar(255) DEFAULT NULL,
   `email` varchar(150) NOT NULL,
-  `phone` varchar(30) NOT NULL,
-  `zip_code` varchar(20) NOT NULL,
-  `city` varchar(100) NOT NULL,
-  `address_line` varchar(255) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `zip_code` varchar(20) DEFAULT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `address_line` varchar(255) DEFAULT NULL,
   `additional_info` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -185,7 +182,10 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `session_id`, `order_date`, `status`, `payment_method`, `payment_id`, `total_amount`, `first_name`, `last_name`, `email`, `phone`, `zip_code`, `city`, `address_line`, `additional_info`) VALUES
-(1, 3, NULL, '2026-02-15 18:53:02', 'pending', 'none', NULL, 85000.00, '', '', '', '', '', '', '', NULL);
+(4, 9, NULL, '2026-03-04 10:22:58', 'pending', 'none', NULL, 85000.00, 'Kiss', 'Péter', 'teszt@email.com', '06301234567', '1111', 'Budapest', 'Fő utca 12', '2. emelet 5.'),
+(7, NULL, 'vendeg2', '2026-03-04 11:03:54', 'pending', 'none', NULL, 11980.00, NULL, NULL, 'teszt@email.com', NULL, NULL, NULL, NULL, NULL),
+(9, 9, NULL, '2026-03-04 11:19:58', 'pending', 'none', NULL, 5990.00, NULL, NULL, 'teszt@email.com', NULL, NULL, NULL, NULL, NULL),
+(10, 9, NULL, '2026-03-04 11:33:46', 'pending', 'none', NULL, 90990.00, 'Kiss', 'Péter', 'teszt@email.com', '06301234567', '1111', 'Budapest', 'Fő utca 12', '2. emelet 5.');
 
 -- --------------------------------------------------------
 
@@ -211,11 +211,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`product_id`, `name`, `category`, `requires_login`, `price`, `stock`, `description`, `image_url`, `is_active`, `created_at`) VALUES
-(1, 'Grand Theft Auto V Steam Key', 'gamekey', 0, 5990.00, 10, 'GTA V digitális kulcs', 'gtav.jpg', 1, '2026-02-15 18:44:03'),
-(2, 'Steam Wallet 20€', 'giftcard', 0, 8000.00, 5, 'Steam Wallet 20€ digitális ajándékkárrtya', 'steamcard.jpg', 1, '2026-02-15 18:44:03'),
-(3, 'Ryzen 7 5800X', 'hardware', 1, 85000.00, 2, 'AMD Processzor', 'ryzen.jpg', 1, '2026-02-15 18:44:03'),
-(4, 'Intel Core i5-14400F', 'hardware', 1, 85000.00, 10, 'Intel Core i5-14400F, 10 mag, LGA1700, gamer és általános felhasználásra', 'i5_14400f.jpg', 1, '2026-02-17 08:23:27'),
-(5, 'Intel Core i7-14700K', 'hardware', 1, 165000.00, 8, 'Intel Core i7-14700K, 20 mag, tuningolható, LGA1700', 'i7_14700k.jpg', 1, '2026-02-17 08:23:27'),
+(1, 'Grand Theft Auto V Steam Key', 'gamekey', 0, 5990.00, 3, 'GTA V digitális kulcs', 'gtav.jpg', 1, '2026-02-15 18:44:03'),
+(2, 'Steam Wallet 20€', 'giftcard', 0, 8000.00, 5, 'Steam ajándékkártya', 'steamcard.jpg', 1, '2026-02-15 18:44:03'),
+(3, 'Ryzen 7 5800X', 'hardware', 1, 85000.00, 0, 'AMD Processzor', 'ryzen.jpg', 1, '2026-02-15 18:44:03'),
+(4, 'Intel Core i5-14400F', 'hardware', 1, 85000.00, 9, 'Intel Core i5-14400F, 10 mag, LGA1700, gamer és általános felhasználásra', 'i5_14400f.jpg', 1, '2026-02-17 08:23:27'),
+(5, 'Intel Core i7-14700K', 'hardware', 1, 165000.00, 7, 'Intel Core i7-14700K, 20 mag, tuningolható, LGA1700', 'i7_14700k.jpg', 1, '2026-02-17 08:23:27'),
 (6, 'Intel Core i9-14900K', 'hardware', 1, 260000.00, 5, 'Intel Core i9-14900K, csúcskategóriás gamer és workstation CPU', 'i9_14900k.jpg', 1, '2026-02-17 08:23:27'),
 (7, 'AMD Ryzen 5 7600', 'hardware', 1, 90000.00, 12, 'AMD Ryzen 5 7600, AM5 foglalat, 6 mag, 12 szál', 'ryzen5_7600.jpg', 1, '2026-02-17 08:23:27'),
 (8, 'AMD Ryzen 7 7800X3D', 'hardware', 1, 145000.00, 7, 'AMD Ryzen 7 7800X3D, kiemelkedő játékos teljesítmény, AM5', 'ryzen7_7800x3d.jpg', 1, '2026-02-17 08:23:27'),
@@ -305,8 +305,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `email`, `password`, `created_at`) VALUES
-(1, 'Teszt', 'test@gmail.com', 'tesztfelhasznalo1', '2026-02-11 09:07:15'),
-(3, 'asdasd1', 'asdasd12@gmail.com', '$2b$10$p6BTVfRuZofADjU972fEBeD8RyKPW0J6NyZ27DcLzFMjz85g6WF5e', '2026-02-15 18:48:04');
+(9, 'simon', 'simon@gmail.com', '$2b$10$ofIf13pY6sjuOQoSIx2egecJU8kIPIibdjL60n.cCdJPDsOwnhko2', '2026-03-04 10:17:30'),
+(10, 'marcell', 'marcell@gmail.com', '$2b$10$xfKZGtMWHkc8m6HRmO1omOiraZvKnl643Ssng1cjYzMp92Kz5LuE2', '2026-03-04 10:17:48'),
+(11, 'hunor', 'hunor@gmail.com', '$2b$10$rpQhn5BWbg6T1NCi6FipZO97nUfwEQuK03U0SZx67y/EdyfPuyvxi', '2026-03-04 10:18:07');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -374,7 +375,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `cart_items`
 --
 ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT a táblához `gamekeys`
@@ -392,13 +393,13 @@ ALTER TABLE `giftcards`
 -- AUTO_INCREMENT a táblához `orderdetails`
 --
 ALTER TABLE `orderdetails`
-  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `detail_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT a táblához `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT a táblához `products`
@@ -410,7 +411,7 @@ ALTER TABLE `products`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Megkötések a kiírt táblákhoz
