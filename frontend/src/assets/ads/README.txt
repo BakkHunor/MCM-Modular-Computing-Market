@@ -1,0 +1,1 @@
+Ide tehetsz reklám képeket: gta6.jpg, re-requiem.jpg, steam.jpg (vagy módosítsd a home.component.ts slides listát).\n

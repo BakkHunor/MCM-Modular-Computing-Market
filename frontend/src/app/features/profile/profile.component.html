@@ -1,18 +1,113 @@
-<div class="page">
-  <div class="panel">
+<div class="wrap">
+  <div class="head">
     <h1>Profil</h1>
-    <p class="muted" *ngIf="auth.profile as p">
-      Bejelentkezve mint <strong>{{ p.username }}</strong> ({{ p.email }})
-    </p>
-    <p class="muted" *ngIf="!auth.profile">
-      Nincs bejelentkezve. <a routerLink="/login">Belépés</a>
-    </p>
-
-    <div class="section">
-      <h2>Megrendelések</h2>
-      <div class="empty">
-        (Bemutató) Itt lesz majd a rendelési előzmény és a digitális kódok listája.
-      </div>
+    <div class="sub" *ngIf="user">
+      <span class="pill"><span class="k">Felhasználó:</span> {{ user.username }}</span>
+      <span class="pill"><span class="k">Email:</span> {{ user.email }}</span>
     </div>
+  </div>
+
+  <div class="grid">
+    <section class="card">
+      <h2>Szállítási adatok (hardverhez)</h2>
+      <p class="muted">Ezeket automatikusan fel tudjuk tölteni a pénztárnál, hogy ne kelljen újra beírni.</p>
+
+      <div class="form">
+        <div class="row two">
+          <label>
+            <span>Keresztnév</span>
+            <input [(ngModel)]="address.firstName" placeholder="Keresztnév" />
+          </label>
+          <label>
+            <span>Vezetéknév</span>
+            <input [(ngModel)]="address.lastName" placeholder="Vezetéknév" />
+          </label>
+        </div>
+
+        <label>
+          <span>Cím</span>
+          <input [(ngModel)]="address.address" placeholder="Utca, házszám" />
+        </label>
+
+        <label>
+          <span>Kiegészítő info (opcionális)</span>
+          <input [(ngModel)]="address.additionalInfo" placeholder="Emelet, ajtó, stb." />
+        </label>
+
+        <div class="row two">
+          <label>
+            <span>Város</span>
+            <input [(ngModel)]="address.city" placeholder="Város" />
+          </label>
+          <label>
+            <span>Irányítószám</span>
+            <input [(ngModel)]="address.postcode" placeholder="Irányítószám" />
+          </label>
+        </div>
+
+        <label>
+          <span>Telefon (opcionális)</span>
+          <input [(ngModel)]="address.phone" placeholder="+36..." />
+        </label>
+
+        <div class="actions">
+          <button class="btn" type="button" (click)="saveAddress()" [disabled]="saving">
+            {{ saving ? 'Mentés...' : 'Szállítási adatok mentése' }}
+          </button>
+          <span class="ok" *ngIf="saveMsg">{{ saveMsg }}</span>
+          <span class="err" *ngIf="saveErr">{{ saveErr }}</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Rendeléseim</h2>
+      <div *ngIf="ordersLoading" class="muted">Betöltés...</div>
+      <div *ngIf="ordersErr" class="err">{{ ordersErr }}</div>
+
+      <div class="orders" *ngIf="!ordersLoading && !ordersErr">
+        <div class="empty muted" *ngIf="orders.length === 0">Még nincs rendelésed.</div>
+
+        <article class="order" *ngFor="let o of orders; trackBy: trackById">
+          <div class="order-top">
+            <div class="id">#{{ o.id }}</div>
+            <div class="date">{{ o.createdAt | date:'yyyy.MM.dd HH:mm' }}</div>
+          </div>
+
+          <div class="order-body">
+            <div class="line">
+              <span class="k">Típus:</span>
+              <span>{{ o.hasHardware ? 'Hardver (szállítás)' : 'Digitális (kulcskód)' }}</span>
+            </div>
+            <div class="line" *ngIf="!o.hasHardware && o.email">
+              <span class="k">Email:</span> <span>{{ o.email }}</span>
+            </div>
+
+            <div class="line total">
+              <span class="k">Végösszeg:</span>
+              <span>{{ o.total_price | number:'1.0-0' }} Ft</span>
+            </div>
+
+            <div class="ship" *ngIf="o.hasHardware">
+              <div class="k">Szállítás:</div>
+              <div class="addr">
+                {{ o.first_name }} {{ o.last_name }}<br />
+                {{ o.address_line }}<br />
+                {{ o.zip_code }} {{ o.city }}
+              </div>
+            </div>
+
+            <div class="items" *ngIf="o.items?.length">
+              <div class="k">Tételek:</div>
+              <ul>
+                <li *ngFor="let it of o.items">
+                  {{ it.productName || ('#' + it.productId) }} — {{ it.quantity }} × {{ it.price | number:'1.0-0' }} Ft
+                </li>
+              </ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
   </div>
 </div>

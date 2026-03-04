@@ -1,28 +1,48 @@
 <div class="auth-page">
-  <div class="auth-card">
-    <h1>Hozd létre az MCM profilod</h1>
-
-    <div class="field">
-      <span class="icon" aria-hidden="true">✉️</span>
-      <input [(ngModel)]="email" type="email" placeholder="Email" autocomplete="email" />
+  <div class="auth-shell">
+    <div class="auth-left">
+      <div class="welcome">
+        <div class="welcome-kicker">MCM</div>
+        <h1>Üdv az MCM-en!</h1>
+        <p>
+          Hozd létre a fiókod, és vásárolj kulcsokat, gift cardokat és hardvert egyszerűen.
+        </p>
+      </div>
     </div>
 
-    <div class="field">
-      <span class="icon" aria-hidden="true">🔒</span>
-      <input [(ngModel)]="password" type="password" placeholder="Jelszó" autocomplete="new-password" />
+    <div class="auth-right">
+      <div class="auth-card">
+        <h2>Fiók létrehozása</h2>
+
+        <div class="field">
+          <input [(ngModel)]="username" type="text" placeholder="Felhasználónév" autocomplete="username" />
+        </div>
+
+        <div class="field">
+          <input [(ngModel)]="email" type="email" placeholder="Email" autocomplete="email" />
+        </div>
+
+        <div class="field">
+          <input [(ngModel)]="password" type="password" placeholder="Jelszó" autocomplete="new-password" />
+        </div>
+
+        <div class="field">
+          <input [(ngModel)]="password2" type="password" placeholder="Jelszó újra" autocomplete="new-password" />
+        </div>
+
+        <label class="remember">
+          <input type="checkbox" [(ngModel)]="remember" />
+          <span>Emlékezz rám</span>
+        </label>
+
+        <button class="primary" type="button" (click)="submit()">Regisztráció</button>
+
+        <div class="msg" *ngIf="message">{{ message }}</div>
+
+        <p class="bottom">
+          Már van fiókod? <a routerLink="/login">Belépés</a>
+        </p>
+      </div>
     </div>
-
-    <div class="field">
-      <span class="icon" aria-hidden="true">🔒</span>
-      <input [(ngModel)]="password2" type="password" placeholder="Jelszó újra" autocomplete="new-password" />
-    </div>
-
-    <button class="primary" type="button" (click)="submit()">Regisztráció</button>
-
-    <div class="msg" *ngIf="message">{{ message }}</div>
-
-    <p class="bottom">
-      Már van fiókod? <a routerLink="/login">Belépés</a>
-    </p>
   </div>
 </div>

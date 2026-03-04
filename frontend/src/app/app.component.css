@@ -1,109 +1,11 @@
 :host{
-  display:block;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* A router-outlet terület töltse ki a rendelkezésre álló magasságot, a footer pedig mindig lent legyen */
 .page{
-  min-height: calc(100vh - 72px - 64px);
-}
-
-.footer{
-  border-top: 1px solid var(--border);
-  padding: 16px 18px;
-  background: var(--card);
-  backdrop-filter: blur(10px);
-  color: rgba(255,255,255,0.75);
-}
-
-.footer .inner{
-  max-width: 1100px;
-  margin: 0 auto;
-  display:flex;
-  align-items:baseline;
-  justify-content:space-between;
-  gap: 12px;
-  flex-wrap:wrap;
-}
-
-.footer .brand{
-  color: var(--text);
-  font-weight: 900;
-  letter-spacing: 0.6px;
-}
-html, body {
-    background: linear-gradient(
-        180deg,
-        #ff8fb1 0%,
-        #ff9671 25%,
-        #c77dff 60%,
-        #5e60ce 100%
-    );
-    background-attachment: fixed;
-    min-height: 100vh;
-    color: #ffffff !important;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.15), transparent 40%),
-                radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent 40%);
-    pointer-events: none;
-    z-index: 0;
-}
-
-body * {
-    position: relative;
-    z-index: 1;
-}
-
-* {
-    color: #ffffff !important;
-}
-
-button,
-.btn,
-input[type="submit"],
-input[type="button"],
-a.button,
-.megnezem,
-.regisztracio,
-.register,
-.login {
-    background-color: #a5d8ff !important;
-    color: #0f172a !important;
-    border: 2px solid #a5d8ff !important;
-    box-shadow: 0 0 20px rgba(165,216,255,0.7);
-    transition: all 0.3s ease;
-}
-
-button:hover,
-.btn:hover,
-input[type="submit"]:hover,
-input[type="button"]:hover {
-    background-color: #74c0fc !important;
-    box-shadow: 0 0 30px rgba(165,216,255,1);
-}
-
-input,
-select,
-textarea {
-    background-color: rgba(0,0,0,0.25) !important;
-    color: #ffffff !important;
-    border: 2px solid #a5d8ff !important;
-}
-
-.card,
-.product-card,
-.box,
-.container {
-    background: rgba(0,0,0,0.25) !important;
-    backdrop-filter: blur(6px);
-    border: 2px solid #a5d8ff !important;
-    box-shadow: 0 0 25px rgba(0,0,0,0.3);
-}
-
-a {
-    color: #ffffff !important;
+  flex: 1;
+  min-height: 0;
 }

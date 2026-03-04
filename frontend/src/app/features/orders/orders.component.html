@@ -1,0 +1,16 @@
+<div class="page">
+  <div class="panel">
+    <h1>Rendelések</h1>
+
+    <p class="muted" *ngIf="auth.user as u">Bejelentkezve mint <strong>{{ u.username }}</strong></p>
+    <p class="muted" *ngIf="!auth.user">
+      A rendeléseid megtekintéséhez jelentkezz be: <a routerLink="/login">Bejelentkezés</a>
+    </p>
+
+    <div class="section">
+      <div class="empty">
+        (Demo) A backendben jelenleg csak checkout endpoint van, ezért itt egyelőre egy lista/előzmény helyőrző látható.
+      </div>
+    </div>
+  </div>
+</div>

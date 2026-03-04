@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { HomeComponent } from './features/home/home.component';
 import { ProductListingComponent } from './features/product-listing/product-listing.component';
 import { ProductDetailComponent } from './features/product-detail/product-detail.component';
@@ -8,15 +7,24 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { CartComponent } from './features/cart/cart.component';
 import { CheckoutComponent } from './features/checkout/checkout.component';
 import { ProfileComponent } from './features/profile/profile.component';
-
+import { AboutComponent } from './features/static/about/about.component';
+import { ContactComponent } from './features/static/contact/contact.component';
+import { FaqComponent } from './features/static/faq/faq.component';
+import { TermsComponent } from './features/static/terms/terms.component';
+import { OrdersComponent } from './features/orders/orders.component';
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'search', component: ProductListingComponent },
-  { path: 'product/:id', component: ProductDetailComponent },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent },
-  { path: '**', redirectTo: '' },
+ { path: '', component: HomeComponent },
+ { path: 'search', component: ProductListingComponent },
+ { path: 'product/:id', component: ProductDetailComponent },
+ { path: 'login', component: LoginComponent },
+ { path: 'register', component: RegisterComponent },
+ { path: 'profile', component: ProfileComponent },
+ { path: 'orders', component: OrdersComponent },
+ { path: 'cart', component: CartComponent },
+ { path: 'checkout', component: CheckoutComponent },
+ { path: 'about', component: AboutComponent },
+ { path: 'contact', component: ContactComponent },
+ { path: 'faq', component: FaqComponent },
+ { path: 'terms', component: TermsComponent },
+ { path: '**', redirectTo: '' },
 ];

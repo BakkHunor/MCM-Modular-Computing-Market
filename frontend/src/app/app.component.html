@@ -1,11 +1,20 @@
 <app-header></app-header>
-
+<app-cart-drawer></app-cart-drawer>
 <div class="page">
-  <router-outlet></router-outlet>
+ <router-outlet></router-outlet>
 </div>
 
-<footer class="footer">
+<footer class="mcm-footer" aria-label="Lábléc">
   <div class="inner">
-    <div class="brand">MCM – Modular Computing Market</div>
+    <nav class="links" aria-label="Információk">
+      <a routerLink="/about">Rólunk</a>
+      <a routerLink="/contact">Kapcsolat</a>
+      <a routerLink="/faq">GYIK</a>
+      <a routerLink="/terms">ÁSZF</a>
+    </nav>
+
+    <div class="copyright">
+      © 2026 MCM – Modular Computing Market. Minden jog fenntartva.
+    </div>
   </div>
 </footer>

@@ -1,57 +1,118 @@
-<div class="wrap">
-  <div class="h1">Fizetés</div>
-  <div class="sub">Ellenőrizd a kosarat, majd folytasd.</div>
+<div class="success-modal" *ngIf="showSuccessModal">
+  <div class="success-card" (click)="$event.stopPropagation()">
+    <div class="success-title">Sikeres rendelés</div>
+    <div class="success-text">{{ modalText }}</div>
+    <div class="success-count">Visszairányítás {{ countdown }} mp…</div>
+    <button type="button" class="primary" (click)="router.navigate(['/'])">Vissza a főoldalra</button>
+  </div>
+</div>
 
-  <div class="layout" *ngIf="cart.items.length > 0; else empty">
-    <section class="panel">
-      <div class="panel-title">Kosár tartalma</div>
-
-      <div class="item" *ngFor="let it of cart.items">
-        <img class="thumb" [src]="it.product.imageUrl" [alt]="it.product.name" />
-        <div class="mid">
-          <div class="name">{{ it.product.name }}</div>
-          <div class="meta">{{ it.quantity }} × {{ it.product.price | number }} Ft</div>
-        </div>
-        <div class="sum">{{ (it.quantity * it.product.price) | number }} Ft</div>
+<div class="co-page">
+  <div class="co-wrap">
+    <div class="co-head">
+      <div class="co-title">Pénztár</div>
+      <div class="co-sub">
+        <span *ngIf="hasHardware; else digitalTpl">Szállítás</span>
+        <ng-template #digitalTpl>Digitális rendelés</ng-template>
       </div>
-    </section>
+    </div>
 
-    <aside class="side">
-      <div class="card">
-        <div class="card-title">Összesítő</div>
-        <div class="line total">
-          <div>Végösszeg</div>
-          <div class="right">{{ cart.subtotal | number }} Ft</div>
+    <div class="co-grid">
+      <!-- Left -->
+      <div class="co-card">
+        <div class="sect-title">Kapcsolat</div>
+
+        <label class="lbl">Email</label>
+        <input class="inp" type="email" [(ngModel)]="email" placeholder="you@email.com" />
+
+        <div *ngIf="hasHardware" class="sect">
+          <div class="sect-title">Szállítási cím</div>
+
+          <div class="row2">
+            <div>
+              <label class="lbl">Keresztnév</label>
+              <input class="inp" [(ngModel)]="firstName" />
+            </div>
+            <div>
+              <label class="lbl">Vezetéknév</label>
+              <input class="inp" [(ngModel)]="lastName" />
+            </div>
+          </div>
+
+          <label class="lbl">Cím</label>
+          <input class="inp" [(ngModel)]="addressLine" placeholder="Utca, házszám" />
+
+          <label class="lbl">Egyéb információ (opcionális)</label>
+          <input class="inp" [(ngModel)]="additionalInfo" placeholder="Emelet, ajtó, stb." />
+
+          <div class="row2">
+            <div>
+              <label class="lbl">Város</label>
+              <input class="inp" [(ngModel)]="city" />
+            </div>
+            <div>
+              <label class="lbl">Irányítószám</label>
+              <input class="inp" [(ngModel)]="zipCode" />
+            </div>
+          </div>
+
+          <label class="lbl">Telefonszám</label>
+          <input class="inp" [(ngModel)]="phone" placeholder="+36..." />
+        </div>
+
+        <div *ngIf="isDigitalOnly" class="hint">
+          Digitális vásárlás (kulcs/kód). Csak az emailedre van szükségünk.
         </div>
 
         <label class="terms">
-          <input type="checkbox" [(ngModel)]="accept" />
-          <span>Elfogadom a <u>Feltételeket</u>.</span>
+          <input type="checkbox" [(ngModel)]="acceptTerms" />
+          <span>Elfogadom az ÁSZF-et</span>
         </label>
 
-        <button class="pay" type="button" (click)="pay()" [disabled]="loading">
-          {{ loading ? 'Fizetés...' : 'Fizetés' }}
+        <div *ngIf="errorMsg" class="msg err">{{ errorMsg }}</div>
+        <div *ngIf="successMsg" class="msg ok">{{ successMsg }}</div>
+
+        <button class="paybtn" type="button" (click)="placeOrder()" [disabled]="loading || cart.items.length===0">
+          {{ loading ? 'Processing...' : 'Rendelés leadása' }}
         </button>
 
-        <!-- Meglévő üzenet (megtartjuk) -->
-        <div class="msg" *ngIf="message">{{ message }}</div>
+        </div>
 
-        <!-- Új: hiba üzenet (ha külön kezeled) -->
-        <div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
-      </div>
-    </aside>
-  </div>
+      <!-- Right summary -->
+      <div class="co-card">
+        <div class="sect-title">Rendelés összesítő</div>
 
-  <ng-template #empty>
-    <div class="empty">A kosarad üres.</div>
-  </ng-template>
+        <div class="sum-items" *ngIf="cart.items.length > 0; else emptySum">
+          <div class="sum-item" *ngFor="let it of cart.items">
+            <div class="sum-img">
+              <img [src]="it.product.imageUrl" [alt]="it.product.name" />
+            </div>
+            <div class="sum-info">
+              <div class="sum-name">{{ it.product.name }}</div>
+              <div class="sum-meta">Menny.: {{ it.quantity }}</div>
+            </div>
+            <div class="sum-price">{{ money((it.product.price||0) * (it.quantity||0)) }}</div>
+          </div>
 
-  <!-- Új: Sikeres vásárlás overlay + visszaszámláló -->
-  <div class="success-overlay" *ngIf="successOpen">
-    <div class="success-card">
-      <div class="success-title">Sikeres vásárlás!</div>
-      <div class="success-sub">
-        Visszairányítás a főoldalra: <strong>{{ secondsLeft }}</strong>…
+          <div class="sum-totals">
+            <div class="trow">
+              <span class="muted">Részösszeg</span>
+              <span class="strong">{{ money(subtotal) }}</span>
+            </div>
+            <div class="trow">
+              <span class="muted">ÁFA</span>
+              <span class="strong">{{ money(tax) }}</span>
+            </div>
+            <div class="trow big">
+              <span class="strong">Végösszeg</span>
+              <span class="strong">{{ money(total) }}</span>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #emptySum>
+          <div class="empty">A kosarad üres.</div>
+        </ng-template>
       </div>
     </div>
   </div>

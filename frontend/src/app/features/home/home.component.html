@@ -1,48 +1,109 @@
-<section class="hero">
-  <div class="hero-inner">
-    <div>
-      <h1>MCM</h1>
-      <div class="tagline">Modular Computing Market</div>
-      <p>
-        Játékkulcsok, ajándékkártyák és gépalkatrészek – gyors keresés,
-        átlátható szűrés, egyszerű vásárlás.
-      </p>
-      <div class="hero-actions">
-        <a class="btn primary" routerLink="/search" [queryParams]="{ q: 'fifa' }">Próbáld ki a keresőt</a>
-        <a class="btn" routerLink="/search">Összes termék</a>
-      </div>
-      <div class="badges">
-      </div>
-    </div>
+<section class="ads" *ngIf="slides.length > 0">
+  <div class="ads-inner">
+    <div class="ads-frame">
+      <a
+        class="ads-slide"
+        [routerLink]="slides[activeSlide].link || '/search'"
+        [style.backgroundImage]="'url(' + slides[activeSlide].imageUrl + ')'"
+      >
+        <div class="ads-overlay">
+          <div class="ads-title">{{ slides[activeSlide].title }}</div>
+          <div class="ads-sub" *ngIf="slides[activeSlide].subtitle">{{ slides[activeSlide].subtitle }}</div>
 
-    <div class="hero-card">
-      <div class="hero-card-title">Kiemelt</div>
-      <div class="mini-grid">
-        <a class="mini" *ngFor="let p of featured.slice(0, 3)" [routerLink]="['/product', p.id]">
-          <img [src]="p.imageUrl" [alt]="p.name" />
-          <div class="mini-meta">
-            <div class="mini-name">{{ p.name }}</div>
-            <div class="mini-price">{{ p.price | number }} Ft</div>
+          <div class="ads-cta" *ngIf="slides[activeSlide].ctaText">
+            <span>{{ slides[activeSlide].ctaText }}</span>
+            <span class="arrow">→</span>
           </div>
-        </a>
+        </div>
+      </a>
+
+      <button class="ads-nav left" type="button" (click)="prev()" aria-label="Előző">‹</button>
+      <button class="ads-nav right" type="button" (click)="next()" aria-label="Következő">›</button>
+
+      <div class="ads-dots">
+        <button
+          type="button"
+          class="dot"
+          *ngFor="let s of slides; let i = index"
+          [class.active]="i === activeSlide"
+          (click)="goTo(i)"
+          aria-label="Ugrás"
+        ></button>
       </div>
     </div>
   </div>
 </section>
 
+<section class="hero">
+ <div class="hero-inner">
+ <div>
+ <h1 class="brand">MCM</h1>
+ <div class="tagline">Modular Computing Market</div>
+ <p>
+ Játékkulcsok, ajándékkártyák és gépalkatrészek – gyors keresés,
+ átlátható szűrés, egyszerű vásárlás.
+ </p>
+ <div class="hero-actions">
+ <a class="btn primary" routerLink="/search" [queryParams]="{ q: 'fifa' }">Próbáld ki a keresőt</a>
+ <a class="btn" routerLink="/search">Összes termék</a>
+ </div>
+ <div class="badges">
+ </div>
+ </div>
+</div>
+</section>
 <section class="section">
   <div class="section-head">
     <h2>Kiemelt termékek</h2>
     <a routerLink="/search">Minden termék →</a>
   </div>
-
   <div class="grid">
-    <a class="card" *ngFor="let p of featured" [routerLink]="['/product', p.id]">
+    <a class="card" *ngFor="let p of kiemelt4" [routerLink]="['/product', p.id]">
       <img [src]="p.imageUrl" [alt]="p.name" />
       <div class="card-body">
         <div class="name">{{ p.name }}</div>
         <div class="meta">
           <span class="pill">{{ p.category }}</span>
+          <span class="pill" *ngIf="p.platform">{{ p.platform }}</span>
+        </div>
+        <div class="price">{{ p.price | number }} Ft</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Legkelendőbb kulcsok</h2>
+    <a routerLink="/search" [queryParams]="{ category: 'game-key' }">Összes kulcs →</a>
+  </div>
+  <div class="grid">
+    <a class="card" *ngFor="let p of kulcsok4" [routerLink]="['/product', p.id]">
+      <img [src]="p.imageUrl" [alt]="p.name" />
+      <div class="card-body">
+        <div class="name">{{ p.name }}</div>
+        <div class="meta">
+          <span class="pill">kulcs</span>
+          <span class="pill" *ngIf="p.platform">{{ p.platform }}</span>
+        </div>
+        <div class="price">{{ p.price | number }} Ft</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Ajándékkártyák</h2>
+    <a routerLink="/search" [queryParams]="{ category: 'gift-card' }">Összes kártya →</a>
+  </div>
+  <div class="grid">
+    <a class="card" *ngFor="let p of giftcard4" [routerLink]="['/product', p.id]">
+      <img [src]="p.imageUrl" [alt]="p.name" />
+      <div class="card-body">
+        <div class="name">{{ p.name }}</div>
+        <div class="meta">
+          <span class="pill">gift card</span>
           <span class="pill" *ngIf="p.platform">{{ p.platform }}</span>
         </div>
         <div class="price">{{ p.price | number }} Ft</div>

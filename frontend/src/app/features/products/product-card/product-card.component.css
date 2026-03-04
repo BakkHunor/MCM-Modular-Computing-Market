@@ -1,0 +1,8 @@
+
+.product-card h3,
+.product-card .title,
+.product-card .name,
+.product-title{
+  color:#000 !important;
+  font-weight:700;
+}

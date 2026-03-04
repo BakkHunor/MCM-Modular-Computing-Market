@@ -1,0 +1,76 @@
+<!-- Overlay -->
+<div
+  class="cd-overlay"
+  [class.open]="(drawer.open$ | async) === true"
+  (click)="drawer.close()"
+></div>
+
+<!-- Drawer -->
+<aside
+  class="cd-drawer"
+  [class.open]="(drawer.open$ | async) === true"
+  aria-label="Kosár">
+  <div class="cd-inner">
+    <!-- Header -->
+    <div class="cd-header">
+      <div class="cd-head-left">
+        <div class="cd-title">Kosár</div>
+        <div class="cd-sub">{{ cart.count }} termék</div>
+      </div>
+      <button type="button" class="cd-close" (click)="drawer.close()" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Content -->
+    <div class="cd-content">
+      <div class="cd-empty" *ngIf="cart.items.length === 0">
+        Kosár is empty.
+      </div>
+
+      <div class="cd-item" *ngFor="let it of cart.items">
+        <div class="cd-img">
+          <img [src]="it.product.imageUrl" [alt]="it.product.name" />
+        </div>
+
+        <div class="cd-info">
+          <div class="cd-name">{{ it.product.name }}</div>
+          <div class="cd-meta">
+            {{ it.quantity }} × {{ money(it.product.price) }}
+          </div>
+
+          <div class="cd-qty">
+            <button type="button" class="qtybtn" (click)="dec(it.product)">−</button>
+            <div class="qtyval">{{ it.quantity }}</div>
+            <button type="button" class="qtybtn" (click)="inc(it.product)">+</button>
+
+            
+          </div>
+        </div>
+
+        <div class="cd-lineprice">
+          {{ money((it.product.price || 0) * (it.quantity || 0)) }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="cd-footer">
+      <div class="cd-row">
+        <span class="muted">Részösszeg</span>
+        <span class="strong">{{ money(cart.subtotal) }}</span>
+      </div>
+
+      <button
+        type="button"
+        class="cd-primary"
+        [disabled]="cart.items.length === 0"
+        (click)="checkout()"
+      >
+        Tovább a pénztárhoz
+      </button>
+
+      <button type="button" class="cd-secondary" (click)="drawer.close()">
+        Vásárlás folytatása
+      </button>
+    </div>
+  </div>
+</aside>
