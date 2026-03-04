@@ -18,12 +18,28 @@ exports.addToCart = async (req, res) => {
     const product = await Product.findByPk(product_id);
 
     if (!product) {
-      return res.status(404).json({ message: "Termék nem található" });
+      return res.status(404).json({
+        message: "Termék nem található"
+      });
+    }
+
+    if (product.stock <= 0) {
+      return res.status(400).json({
+        message: "A termék nincs készleten"
+      });
     }
 
     if (product.requires_login && !user_id) {
       return res.status(401).json({
         message: "Ehhez a termékhez be kell jelentkezni"
+      });
+    }
+
+    const qtyToAdd = Number(quantity) || 1;
+
+    if (qtyToAdd <= 0) {
+      return res.status(400).json({
+        message: "Érvénytelen mennyiség"
       });
     }
 
@@ -34,15 +50,31 @@ exports.addToCart = async (req, res) => {
     const existingItem = await CartItem.findOne({ where: whereClause });
 
     if (existingItem) {
-      existingItem.quantity =
-        Number(existingItem.quantity) + Number(quantity || 1);
+
+      const newQuantity = Number(existingItem.quantity) + qtyToAdd;
+
+      if (newQuantity > product.stock) {
+        return res.status(400).json({
+          message: "Nincs elegendő készlet"
+        });
+      }
+
+      existingItem.quantity = newQuantity;
       await existingItem.save();
+
     } else {
+
+      if (qtyToAdd > product.stock) {
+        return res.status(400).json({
+          message: "Nincs elegendő készlet"
+        });
+      }
+
       await CartItem.create({
         user_id,
         session_id,
         product_id,
-        quantity: quantity || 1
+        quantity: qtyToAdd
       });
     }
 
@@ -87,6 +119,7 @@ exports.getCart = async (req, res) => {
 };
 
 exports.removeFromCart = async (req, res) => {
+
   const { product_id } = req.body;
 
   const user_id = req.user ? req.user.id : null;
@@ -106,7 +139,9 @@ exports.removeFromCart = async (req, res) => {
     const item = await CartItem.findOne({ where: whereClause });
 
     if (!item) {
-      return res.status(404).json({ message: "Termék nincs a kosárban" });
+      return res.status(404).json({
+        message: "Termék nincs a kosárban"
+      });
     }
 
     if (Number(item.quantity) > 1) {

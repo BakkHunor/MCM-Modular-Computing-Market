@@ -123,6 +123,7 @@ exports.checkout = async (req, res) => {
     order.total_amount = totalAmount;
     await order.save({ transaction: t });
 
+
     await CartItem.destroy({
       where: whereClause,
       transaction: t
