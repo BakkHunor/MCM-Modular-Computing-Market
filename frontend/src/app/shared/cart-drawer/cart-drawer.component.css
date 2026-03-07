@@ -62,6 +62,9 @@
   cursor: pointer;
   font-size: 16px;
   color: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cd-close:hover{ background:#f3f3f3; }
 
@@ -131,6 +134,9 @@
   cursor:pointer;
   font-size: 16px;
   line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .qtybtn:hover{ background:#fafafa; }
 .qtyval{
@@ -200,12 +206,7 @@
   cursor:pointer;
 }
 .cd-secondary:hover{ background:#fafafa; }
-
-
-/* global helper injected by drawer: lock background scroll */
 :global(body.mcm-noscroll){ overflow: hidden; }
-
-/* Force readable colors even if global styles override buttons */
 .cd-title, .cd-sub, .cd-name, .cd-meta, .cd-lineprice, .cd-row, .qtyval{
   color: #111 !important;
 }
@@ -225,28 +226,18 @@
   color: #111 !important;
   background: #fff !important;
 }
-
-
-/* Ensure the drawer is ALWAYS above any homepage layers (glass/blur overlays etc.) */
 :host{
   position: fixed;
   inset: 0;
-  z-index: 2147483647; /* max-ish */
-  pointer-events: none; /* only overlay/panel should receive clicks */
+  z-index: 2147483647;
+  pointer-events: none;
 }
 .cd-overlay,
 .cd-drawer{
   pointer-events: auto;
 }
-
-/* Put overlay/panel on very high stacking levels */
 .cd-overlay{ z-index: 2147483646 !important; }
 .cd-drawer{ z-index: 2147483647 !important; }
-
-
-/* --- SAFETY OVERRIDES ---
-   Prevent invisible overlay from blocking the whole site.
-   Only the overlay/panel should capture clicks when OPEN. */
 .cd-overlay{ pointer-events: none !important; }
 .cd-overlay.open{ pointer-events: auto !important; }
 .cd-drawer{ pointer-events: none !important; }

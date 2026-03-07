@@ -29,7 +29,6 @@ export interface OrderDto {
   hasHardware: boolean;
   email?: string;
 
-  // shipping fields (for hardware)
   first_name?: string;
   last_name?: string;
   address_line?: string;

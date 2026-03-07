@@ -77,7 +77,6 @@ export class AuthService {
   }
 
   constructor(private http: HttpClient) {
-    // ha van token, próbáljuk a profilt frissíteni (nem kötelező)
     if (this.isLoggedIn && !this._profile$.value) {
       this.fetchProfile().subscribe();
     }
@@ -97,7 +96,6 @@ export class AuthService {
           writeJson(PROFILE_KEY, prof, remember);
           this._profile$.next(prof);
         }),
-        // opcionális: backend /api/profile megkérés (ha szeretnéd pontosítani)
         switchMap(() => this.fetchProfile().pipe(catchError(() => of(void 0)))),
         map(() => void 0)
       );
@@ -107,13 +105,11 @@ export class AuthService {
     return this.http
       .post(`${this.baseUrl}/auth/register`, { username, email, password })
       .pipe(
-        // register nem ad tokent, ezért beléptetjük utána
         switchMap(() => this.login(username, password, remember))
       );
   }
 
   fetchProfile(): Observable<void> {
-    // protected route: /api/profile
     return this.http.get<any>(`${this.baseUrl}/profile`).pipe(
       tap((res) => {
         const user = res?.user;
@@ -124,7 +120,6 @@ export class AuthService {
           id: user.id ?? user.user_id ?? existing?.id,
           email: user.email ?? existing?.email,
         };
-        // itt nem tudjuk, remember volt-e, ezért localStorage-t preferáljuk, ha ott van token
         const remember = !!localStorage.getItem(TOKEN_KEY);
         writeJson(PROFILE_KEY, prof, remember);
         this._profile$.next(prof);

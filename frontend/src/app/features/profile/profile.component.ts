@@ -54,7 +54,7 @@ export class ProfileComponent implements OnInit {
   private loadAddress() {
     this.profileData.getShippingAddress().subscribe({
       next: (addr) => { if (addr) this.address = { ...this.address, ...addr }; },
-      error: () => { /* ignore */ }
+      error: () => { }
     });
   }
 

@@ -28,7 +28,6 @@ export class CheckoutComponent implements OnInit {
 
   private readonly baseApi = 'http://localhost:3000/api';
 
-  // UX
   loading = false;
   errorMsg = '';
   successMsg = '';
@@ -41,7 +40,6 @@ export class CheckoutComponent implements OnInit {
   acceptTerms = false;
 
   email = '';
-  // shipping (csak hardware esetén)
   firstName = '';
   lastName = '';
   phone = '';
@@ -50,7 +48,6 @@ export class CheckoutComponent implements OnInit {
   addressLine = '';
   additionalInfo = '';
 
-  // tax display (csak UI)
   readonly TAX_RATE = 0.2;
 
   constructor(
@@ -63,17 +60,8 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
     this.cart.sync().subscribe({ error: () => {} });
 
-    // Hardware checkout csak belépve (kulcs/giftcard mehet vendégként is)
-if (!this.auth.isLoggedIn && this.hasHardware) {
-  this.router.navigate(['/login'], { queryParams: { returnUrl: '/checkout' } });
-  return;
-}
-
-// email prefill, ha van (vendégnél üres)
-
     this.email = this.auth.profile?.email ?? '';
 
-    // Szállítási adatok előtöltése (ha belépve vagy és van hardver a kosárban)
     if (this.auth.isLoggedIn && this.hasHardware) {
       this.http.get<any>(`${this.baseApi}/profile/address`).subscribe({
         next: (addr) => {
@@ -114,6 +102,15 @@ if (!this.auth.isLoggedIn && this.hasHardware) {
 
   get total(): number {
     return this.subtotal + this.tax;
+  }
+
+  private getSessionHeaders() {
+    let sessionId = localStorage.getItem('session_id');
+    if (!sessionId) {
+      sessionId = crypto.randomUUID();
+      localStorage.setItem('session_id', sessionId);
+    }
+    return { headers: { 'x-session-id': sessionId } };
   }
 
   private validate(): string | null {
@@ -160,32 +157,17 @@ if (!this.auth.isLoggedIn && this.hasHardware) {
     }
 
     this.loading = true;
-
-    // vendég session header
-    let sessionId = localStorage.getItem('session_id');
-    if (!sessionId) {
-      sessionId = crypto.randomUUID();
-      localStorage.setItem('session_id', sessionId);
-    }
-
-    this.http.post<CheckoutResponse>(url, body, {
-      headers: {
-        'x-session-id': sessionId
-      }
-    }).subscribe({
+    this.http.post<CheckoutResponse>(url, body, this.getSessionHeaders()).subscribe({
 next: (res) => {
   this.loading = false;
   this.successMsg = res?.message ?? 'Sikeres rendelés!';
   this.cart.sync().subscribe({ error: () => {} });
 
-  // ✅ Success modal + redirect countdown
   this.modalText = this.hasHardware
     ? 'Sikeres rendelés! A terméket hamarosan küldjük a megadott címre.'
     : 'Sikeres rendelés! A kulcsot/kódot hamarosan elküldjük a megadott email címre.';
 
 
-
-// saveShippingAfterCheckout
 if (this.auth.isLoggedIn && this.hasHardware) {
   this.http.put(`${this.baseApi}/profile/address`, {
     firstName: this.firstName,
@@ -210,13 +192,13 @@ if (this.auth.isLoggedIn && this.hasHardware) {
     }
   }, 1000);
 },
-      error: (e) => {
+      error: (e: any) => {
         this.loading = false;
         const msg =
           e?.error?.message ??
           e?.error?.error ??
           (typeof e?.error === 'string' ? e.error : null) ??
-          'Sikertelen checkout.';
+          'Sikertelen fizetés.';
         this.errorMsg = msg;
       },
     });

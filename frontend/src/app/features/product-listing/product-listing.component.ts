@@ -6,6 +6,8 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { CartDrawerService } from '../../services/cart-drawer.service';
+import { ToastService } from '../../services/toast.service';
+import { AuthService } from '../../services/auth.service';
 @Component({
  selector: 'app-product-listing',
  standalone: true,
@@ -22,13 +24,15 @@ export class ProductListingComponent implements OnInit {
  platform = '';
  sort = 'relevance';
  platforms: string[] = [];
- // backend base
+ loginPromptOpen = false;
  apiUrl = 'http://localhost:3000';
  constructor(
    private productService: ProductService,
    private route: ActivatedRoute,
    private cart: CartService,
-   private cartDrawer: CartDrawerService
+   private cartDrawer: CartDrawerService,
+   private toast: ToastService,
+   public auth: AuthService
  ) {}
  ngOnInit(): void {
  this.route.queryParamMap.subscribe((p) => {
@@ -50,17 +54,12 @@ export class ProductListingComponent implements OnInit {
  },
  });
  }
- // EZ A LÉNYEG: mindig jó URL-t ad vissza
  imageSrc(p: any): string {
  const raw = (p?.imageUrl ?? p?.image ?? p?.image_url ?? '').toString().trim();
  if (!raw) return '';
- // ha már teljes URL
  if (/^https?:\/\//i.test(raw)) return raw;
- // ha /uploads/....
  if (raw.startsWith('/')) return this.apiUrl + raw;
- // ha uploads/....
  if (raw.startsWith('uploads/')) return `${this.apiUrl}/${raw}`;
- // ha csak fájlnév (pl: ac_mirage.jpg)
  return `${this.apiUrl}/uploads/${raw}`;
  }
  applyFilters(): void {
@@ -75,6 +74,8 @@ export class ProductListingComponent implements OnInit {
  return true;
  });
  }
+ closeLoginPrompt(): void { this.loginPromptOpen = false; }
+
  resetFilters(): void {
  this.q = '';
  this.maxPrice = 200000;
@@ -85,10 +86,18 @@ export class ProductListingComponent implements OnInit {
  }
 
  addToCart(p: any): void {
-   // 1 db hozzáadás + kosár megnyitása (drawer)
+   if (p?.category === 'hardware' && !this.auth.isLoggedIn) {
+     this.loginPromptOpen = true;
+     return;
+   }
    this.cart.add(p, 1).subscribe({
-     next: () => this.cartDrawer.open(),
-     error: () => this.cartDrawer.open(),
+     next: () => {
+       this.toast.showCartSuccess('Sikeresen beraktuk a terméket a kosárba.');
+     },
+     error: (err: any) => {
+       const msg = err?.error?.message || 'Nem sikerült kosárba tenni.';
+       this.toast.showError(msg);
+     },
    });
  }
 }

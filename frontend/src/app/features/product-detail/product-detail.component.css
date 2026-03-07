@@ -66,7 +66,6 @@
  .img{ height: 220px; }
 }
 
-/* Login-required modal */
 .modalback{
  position: fixed;
  inset: 0;
@@ -80,102 +79,29 @@
 .modal{
  width: min(520px, 100%);
  border-radius: 18px;
- border: 1px solid rgba(255,255,255,0.18);
- background: rgba(20, 12, 35, 0.88);
+ border: 1px solid rgba(0,0,0,.08);
+ background: #fff;
  backdrop-filter: blur(14px);
  box-shadow: 0 30px 80px rgba(0,0,0,0.45);
  padding: 16px;
 }
-.mtitle{ font-size: 18px; font-weight: 950; margin-bottom: 8px; }
-.mbody{ color: rgba(255,255,255,0.86); line-height: 1.5; }
+.mtitle{ font-size: 22px; font-weight: 950; margin-bottom: 8px; color:#111 !important; }
+.mbody{ color:#455566 !important; line-height: 1.5; }
 .mactions{ display:flex; gap: 10px; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap; }
 .mbtn{
  height: 40px;
  padding: 0 14px;
  border-radius: 12px;
- border: 1px solid rgba(255,255,255,0.18);
- background: rgba(165,216,255,0.95);
+ border: 1px solid rgba(0,0,0,.08);
+ background: #7fb3ff;
  color: #0f172a !important;
  font-weight: 900;
  cursor:pointer;
 }
 .mbtn:hover{ filter: brightness(1.03); box-shadow: 0 0 0 3px rgba(255,174,79,0.22); }
 .mbtn.ghost{
- background: rgba(255,255,255,0.10);
- color: rgba(255,255,255,0.95) !important;
+ background: #7fb3ff;
+ color: #111 !important;
 }
+
 .mbtn.ghost:hover{ border-color: rgba(255,174,79,0.85); }
-/* ===================================== */
-/* ===== MCM GTA6 VAPOR THEME ========== */
-/* ===================================== */
-/* GTA 6 sunset vapor gradient */
-html, body {
- background:#ffffff;
- background-attachment: fixed;
- min-height: 100vh;
- color: #ffffff !important;
-}
-/* Soft glow overlay */
-body::before {
- content: "";
- position: fixed;
- inset: 0;
- background: radial-gradient(circle at 70% 20%, rgba(255,255,255,0.15), transparent 40%),
- radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent 40%);
- pointer-events: none;
- z-index: 0;
-}
-/* Make sure content stays above overlay */
-body * {
- position: relative;
- z-index: 1;
-}
-/* ALL TEXT WHITE */
-* {
- color: #ffffff !important;
-}
-/* ALL BUTTONS BABY BLUE */
-button,
-.btn,
-input[type="submit"],
-input[type="button"],
-a.button,
-.megnezem,
-.regisztracio,
-.register,
-.login {
- background-color: #a5d8ff !important;
- color: #0f172a !important;
- border: 2px solid #a5d8ff !important;
- box-shadow: 0 0 20px rgba(165,216,255,0.7);
- transition: all 0.3s ease;
-}
-button:hover,
-.btn:hover,
-input[type="submit"]:hover,
-input[type="button"]:hover {
- background-color: #74c0fc !important;
- box-shadow: 0 0 30px rgba(165,216,255,1);
-}
-/* Inputs */
-input,
-select,
-textarea {
- background-color: rgba(0,0,0,0.25) !important;
- color: #ffffff !important;
- border: 2px solid #a5d8ff !important;
-}
-/* Cards */
-.card,
-.product-card,
-.box,
-.container {
- background: rgba(0,0,0,0.25) !important;
- backdrop-filter: blur(6px);
- border: 2px solid #a5d8ff !important;
- box-shadow: 0 0 25px rgba(0,0,0,0.3);
-}
-/* Links */
-a {
- color: #ffffff !important;
-}

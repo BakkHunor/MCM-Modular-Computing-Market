@@ -7,6 +7,7 @@ import { CartService } from '../../services/cart.service';
 import { CartDrawerService } from '../../services/cart-drawer.service';
 import { AuthService } from '../../services/auth.service';
 import { Product } from '../../models/product.model';
+import { ToastService } from '../../services/toast.service';
 @Component({
  selector: 'app-product-detail',
  standalone: true,
@@ -24,7 +25,8 @@ export class ProductDetailComponent implements OnInit {
  private cart: CartService,
  private cartDrawer: CartDrawerService,
  public auth: AuthService,
- private router: Router
+ private router: Router,
+ private toast: ToastService
  ) {}
  ngOnInit(): void {
  const id = this.route.snapshot.paramMap.get('id') || '';
@@ -43,16 +45,15 @@ export class ProductDetailComponent implements OnInit {
  }
  addToCart(): void {
  if (!this.product) return;
- // HARDWARE -> csak profillal
  if (this.product.category === 'hardware' && !this.auth.isLoggedIn) {
    this.loginPromptOpen = true;
    return;
  }
  (this.cart as any).add(this.product, 1).subscribe({
       next: () => {
-        this.cartDrawer.open();
+        this.toast.showCartSuccess('Sikeresen beraktuk a terméket a kosárba.');
       },
-      error: () => alert('Nem sikerült kosárba tenni.'),
+      error: (err: any) => this.toast.showError(err?.error?.message || 'Nem sikerült kosárba tenni.'),
     });
  }
 
@@ -61,7 +62,6 @@ export class ProductDetailComponent implements OnInit {
  }
 
  goLogin(): void {
-   // vissza ide belépés után
    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
    this.closeLoginPrompt();
  }

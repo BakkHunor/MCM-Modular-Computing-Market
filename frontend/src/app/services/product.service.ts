@@ -14,7 +14,6 @@ type ApiProduct = {
 @Injectable({ providedIn: 'root' })
 export class ProductService {
  private readonly baseUrl = 'http://localhost:3000';
- // cache-eljük a listát, hogy home + listing + detail ne lőjön külön-külön 10 requestet
  private readonly products$: Observable<Product[]> = this.http
  .get<ApiProduct[]>(`${this.baseUrl}/api/products`)
  .pipe(
@@ -28,17 +27,9 @@ export class ProductService {
  getById(id: string): Observable<Product | undefined> {
  return this.products$.pipe(map((list) => list.find((p) => p.id === id)));
  }
- getFeatured(): Observable<Product[]> {
- // ha a modelben van isFeatured, akkor az alapján
- // ha nincs, akkor pl. az első 6-ot adjuk (design miatt)
- return this.products$.pipe(
- map((list) => {
- const anyFeatured = list.some((p: any) => (p as any).isFeatured === true);
- if (anyFeatured) return list.filter((p: any) => (p as any).isFeatured === true);
- return list.slice(0, 6);
- })
- );
- }
+  getFeatured(): Observable<Product[]> {
+    return this.products$;
+  }
 private mapToUi(p: ApiProduct): Product {
  const category =
  p.category === 'gamekey'
@@ -46,7 +37,6 @@ private mapToUi(p: ApiProduct): Product {
  : p.category === 'giftcard'
  ? 'gift-card'
  : 'hardware';
- // Ha van image_url a backend-től, használjuk, különben placeholder
   const rawImage = (p.image_url ?? '').toString().trim();
   const imageUrl = rawImage
     ? this.normalizeImageUrl(rawImage)
@@ -74,18 +64,15 @@ private mapToUi(p: ApiProduct): Product {
  return undefined;
  }
  private imageFor(category: string): string {
- // via.placeholder helyett placehold.co, mert nálad a via DNS hibát dob
  if (category === 'game-key') return 'https://placehold.co/400x250?text=Game+Key';
  if (category === 'gift-card') return 'https://placehold.co/400x250?text=Gift+Card';
  return 'https://placehold.co/400x250?text=Hardware';
  }
 
  private normalizeImageUrl(imagePath: string): string {
- // Ha már teljes URL, visszaadjuk
  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
    return imagePath;
  }
- // Egyébként hozzáadjuk a backend URL-t és az uploads path-t
  return `${this.baseUrl}/uploads/${imagePath}`;
  }
 }

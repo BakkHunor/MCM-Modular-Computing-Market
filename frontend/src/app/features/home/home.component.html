@@ -17,8 +17,12 @@
         </div>
       </a>
 
-      <button class="ads-nav left" type="button" (click)="prev()" aria-label="Előző">‹</button>
-      <button class="ads-nav right" type="button" (click)="next()" aria-label="Következő">›</button>
+      <button class="ads-nav left" type="button" (click)="prev()" aria-label="Előző">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <button class="ads-nav right" type="button" (click)="next()" aria-label="Következő">
+        <mat-icon>chevron_right</mat-icon>
+      </button>
 
       <div class="ads-dots">
         <button
@@ -38,10 +42,9 @@
  <div class="hero-inner">
  <div>
  <h1 class="brand">MCM</h1>
- <div class="tagline">Modular Computing Market</div>
- <p>
- Játékkulcsok, ajándékkártyák és gépalkatrészek – gyors keresés,
- átlátható szűrés, egyszerű vásárlás.
+ <div class="tagline">Digitális kulcsok, ajándékkártyák és hardver – mind egy helyen.</div>
+  <p>
+ Csekkold le legújabb ajánlatainkat és találd meg a neked legszimpatikusabb termékünket!
  </p>
  <div class="hero-actions">
  <a class="btn primary" routerLink="/search" [queryParams]="{ q: 'fifa' }">Próbáld ki a keresőt</a>
@@ -54,7 +57,7 @@
 </section>
 <section class="section">
   <div class="section-head">
-    <h2>Kiemelt termékek</h2>
+    <h2>Új termékeink</h2>
     <a routerLink="/search">Minden termék →</a>
   </div>
   <div class="grid">
@@ -75,10 +78,9 @@
 <section class="section">
   <div class="section-head">
     <h2>Legkelendőbb kulcsok</h2>
-    <a routerLink="/search" [queryParams]="{ category: 'game-key' }">Összes kulcs →</a>
   </div>
   <div class="grid">
-    <a class="card" *ngFor="let p of kulcsok4" [routerLink]="['/product', p.id]">
+    <a class="card" *ngFor="let p of kulcsok5" [routerLink]="['/product', p.id]">
       <img [src]="p.imageUrl" [alt]="p.name" />
       <div class="card-body">
         <div class="name">{{ p.name }}</div>
@@ -94,16 +96,34 @@
 
 <section class="section">
   <div class="section-head">
-    <h2>Ajándékkártyák</h2>
-    <a routerLink="/search" [queryParams]="{ category: 'gift-card' }">Összes kártya →</a>
+    <h2>Legkelendőbb ajándékkártyák</h2>
   </div>
   <div class="grid">
-    <a class="card" *ngFor="let p of giftcard4" [routerLink]="['/product', p.id]">
+    <a class="card" *ngFor="let p of giftcard5" [routerLink]="['/product', p.id]">
       <img [src]="p.imageUrl" [alt]="p.name" />
       <div class="card-body">
         <div class="name">{{ p.name }}</div>
         <div class="meta">
           <span class="pill">gift card</span>
+          <span class="pill" *ngIf="p.platform">{{ p.platform }}</span>
+        </div>
+        <div class="price">{{ p.price | number }} Ft</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-head">
+    <h2>Legkelendőbb hardverek</h2>
+  </div>
+  <div class="grid">
+    <a class="card" *ngFor="let p of hardver5" [routerLink]="['/product', p.id]">
+      <img [src]="p.imageUrl" [alt]="p.name" />
+      <div class="card-body">
+        <div class="name">{{ p.name }}</div>
+        <div class="meta">
+          <span class="pill">hardver</span>
           <span class="pill" *ngIf="p.platform">{{ p.platform }}</span>
         </div>
         <div class="price">{{ p.price | number }} Ft</div>

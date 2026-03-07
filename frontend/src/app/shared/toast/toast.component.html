@@ -1,0 +1,18 @@
+<div class="toast-backdrop" *ngIf="toast.state$ | async as state" (click)="close()">
+  <div class="toast-modal" (click)="$event.stopPropagation()">
+    <div class="toast-icon-wrap">
+      <mat-icon class="toast-icon">shopping_cart_checkout</mat-icon>
+    </div>
+    <div class="toast-title">{{ state.title }}</div>
+    <div class="toast-text">{{ state.text }}</div>
+    <div class="toast-actions" *ngIf="state.kind === 'cart-success'; else errorBtns">
+      <button type="button" class="toast-btn primary" (click)="continueShopping()">Folytasd a vásárlást</button>
+      <button type="button" class="toast-btn secondary" (click)="openCart()">Kosár megtekintése</button>
+    </div>
+    <ng-template #errorBtns>
+      <div class="toast-actions">
+        <button type="button" class="toast-btn primary" (click)="close()">Bezárás</button>
+      </div>
+    </ng-template>
+  </div>
+</div>

@@ -65,3 +65,15 @@
  </div>
  </main>
 </div>
+
+<div class="login-modal" *ngIf="loginPromptOpen" (click)="closeLoginPrompt()">
+  <div class="login-card" (click)="$event.stopPropagation()">
+    <div class="login-title">Bejelentkezés szükséges</div>
+    <div class="login-text">Hardver vásárlásához előbb be kell jelentkezned.</div>
+    <div class="login-actions">
+      <button type="button" class="login-btn" (click)="closeLoginPrompt()">Mégse</button>
+      <a class="login-btn" routerLink="/register" (click)="closeLoginPrompt()">Regisztráció</a>
+      <a class="login-btn" routerLink="/login" (click)="closeLoginPrompt()">Belépés</a>
+    </div>
+  </div>
+</div>

@@ -35,3 +35,20 @@
   line-height: 1.55;
   opacity: 0.95;
 }
+
+.back-btn{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: #8fc3ff;
+  color: #111 !important;
+  text-decoration: none;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.back-btn:hover{
+  background: #a5d8ff;
+}

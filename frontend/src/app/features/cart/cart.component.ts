@@ -67,7 +67,6 @@ export class CartComponent implements OnInit {
  });
  }
  applyCode(): void {
- // Most még UI-only (később lehet backend kupon végpont)
  this.message = this.code ? `Kód rögzítve: ${this.code}` : 'Adj meg egy kódot.';
  }
 }

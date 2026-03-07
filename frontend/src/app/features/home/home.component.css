@@ -143,13 +143,10 @@
 }
 .price{ color: var(--text); font-weight: 950; }
 @media (max-width: 900px){
- .hero-inner{ grid-template-columns: 1fr; }
+ .hero-inner{ grid-template-columns: 1fr; text-align: center; }
+ .hero h1{ font-size: 32px; }
+ .hero-actions{ justify-content: center; }
 }
-
-
-/* =============================== */
-/* ========== ADS SLIDER ========= */
-/* =============================== */
 .ads{
   padding: 18px 18px 0;
 }
@@ -167,7 +164,7 @@
 }
 .ads-slide{
   display:block;
-  height: 420px;
+  height: 520px;
   background-size: cover;
   background-position: center;
   text-decoration: none;
@@ -213,24 +210,34 @@
   position:absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   border: none;
-  background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.92);
   color: #111 !important;
-  font-size: 26px;
   cursor:pointer;
   box-shadow: 0 10px 20px rgba(0,0,0,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
-.ads-nav.left{ left: 12px; }
-.ads-nav.right{ right: 12px; }
+.ads-nav.left{ left: 16px; }
+.ads-nav.right{ right: 16px; }
 .ads-nav:hover{ background: #fff; }
+.ads-nav mat-icon{
+  font-size: 32px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
 
 .ads-dots{
   position:absolute;
   bottom: 12px;
-  left: 12px;
+  left: 50%;
+  transform: translateX(-50%);
   display:flex;
   gap: 8px;
 }
@@ -244,15 +251,18 @@
 }
 .dot.active{ background: rgba(255,255,255,.95); }
 
-/* Responsive */
 @media (max-width: 700px){
   .ads-slide{ height: 300px; }
-  .ads-title{ font-size: 22px; }
+  .ads-title{ font-size: 20px; }
+  .ads-cta{ padding: 8px 12px; font-size: 14px; }
 }
 
-/* =============================== */
-/* ====== FLOATING PRODUCT CARDS = */
-/* =============================== */
+@media (max-width: 480px){
+  .ads-slide{ height: 220px; }
+  .ads-title{ font-size: 18px; }
+  .ads-nav{ width: 36px; height: 36px; }
+  .ads-nav mat-icon{ font-size: 24px; width: 24px; height: 24px; line-height: 24px; }
+}
 .card{
   border: none !important;
   box-shadow: 0 14px 40px rgba(0,0,0,.14);
@@ -268,9 +278,10 @@
 .hero .tagline, .hero p{ color:#2f3a45 !important; }
 
 
-/* Home product name black */
 .grid .card .name{ color:#000 !important; }
 
 @media (max-width: 720px){
-  .card img{ height: 170px; }
+  .card img{ height: 160px; }
+  .grid{ grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+  .section-head{ flex-direction: column; gap: 8px; text-align: center; }
 }

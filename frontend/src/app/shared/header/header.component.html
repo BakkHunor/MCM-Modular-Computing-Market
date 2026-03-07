@@ -1,4 +1,3 @@
-<!-- Checkout: minimal header -->
 <ng-container *ngIf="isCheckout; else normalHeader">
   <header class="checkoutbar">
     <button type="button" class="backbtn" (click)="goHome()" aria-label="Vissza a főoldalra">
@@ -14,12 +13,12 @@
 
 <ng-template #normalHeader>
 <header class="nav">
-  <div class="left">
-    <a class="brand" routerLink="/" (click)="closeMenu()">
-      <img class="brand-logo" src="assets/mcm-logo.png" alt="MCM" />
-    </a>
+  <a class="brand" routerLink="/" (click)="closeMenu()" aria-label="MCM főoldal">
+    <img class="brand-logo" src="assets/mcm-logo.png" alt="MCM" />
+  </a>
 
-    <div class="search" *ngIf="!hideSearch">
+  <div class="nav-center" *ngIf="!hideSearch">
+    <div class="search">
       <input
         type="text"
         [(ngModel)]="searchTerm"
@@ -28,32 +27,33 @@
         (keydown.enter)="onSearch()"
       />
       <button type="button" class="btn" (click)="onSearch()">
-        <mat-icon class="mi">search</mat-icon>
+        <mat-icon class="mi" aria-hidden="true">search</mat-icon>
         <span>Keresés</span>
       </button>
-      <button type="button" class="cartbtn insearch" (click)="openCart($event)" aria-label="Kosár">
-        <mat-icon class="mi carticon" aria-hidden="true">shopping_cart</mat-icon>
-        <span class="badge" *ngIf="cart.count > 0">{{ cart.count }}</span>
-      </button>
-    </div>
-
-    <!-- Auth (közel a keresőhöz) -->
-    <div class="auth-area" *ngIf="!hideAuthLinks">
-      <ng-container *ngIf="!auth.isLoggedIn; else loggedInTpl">
-        <a class="authlink" routerLink="/login">Bejelentkezés</a>
-        <span class="sep">|</span>
-        <a class="authlink" routerLink="/register">Regisztráció</a>
-      </ng-container>
-
-      <ng-template #loggedInTpl>
-        <div class="userbtn userstatic" aria-label="Bejelentkezett felhasználó">
-          <a class="userico" routerLink="/profile" aria-label="Profil"><mat-icon class="mi">person</mat-icon></a>
-          <a class="uname" routerLink="/profile">{{ auth.profile?.username }}</a>
-          <button type="button" class="logoutbtn" (click)="logout()">Kijelentkezés</button>
-        </div>
-      </ng-template>
     </div>
   </div>
 
-  </header>
+  <div class="header-right" *ngIf="!hideAuthLinks">
+    <button type="button" class="cartbtn" (click)="openCart($event)" aria-label="Kosár">
+      <mat-icon class="mi carticon" aria-hidden="true">shopping_cart</mat-icon>
+      <span class="badge" *ngIf="cart.count > 0">{{ cart.count }}</span>
+    </button>
+
+    <ng-container *ngIf="!auth.isLoggedIn; else loggedInTpl">
+      <a class="authlink" routerLink="/login">Bejelentkezés</a>
+      <span class="sep">|</span>
+      <a class="authlink" routerLink="/register">Regisztráció</a>
+    </ng-container>
+
+    <ng-template #loggedInTpl>
+      <div class="userbtn userstatic" aria-label="Bejelentkezett felhasználó">
+        <a class="userico" routerLink="/profile" aria-label="Profil">
+          <mat-icon class="mi">person</mat-icon>
+        </a>
+        <a class="uname" routerLink="/profile">{{ auth.profile?.username }}</a>
+        <button type="button" class="logoutbtn" (click)="logout()">Kijelentkezés</button>
+      </div>
+    </ng-template>
+  </div>
+</header>
 </ng-template>

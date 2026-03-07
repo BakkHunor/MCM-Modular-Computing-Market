@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
@@ -15,7 +15,7 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css'],
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Input() hideSearch = false;
   @Input() hideAuthLinks = false;
 
@@ -27,6 +27,10 @@ export class HeaderComponent {
     public cartDrawer: CartDrawerService,
     private router: Router
   ) {}
+
+  ngOnInit(): void {
+    this.cart.sync().subscribe({ error: () => {} });
+  }
 
   get isCheckout(): boolean {
     return this.router.url.startsWith('/checkout');
@@ -56,8 +60,6 @@ export class HeaderComponent {
     this.router.navigate(['/']);
   }
 
-  // kept for existing template calls (logo click)
   closeMenu(): void {
-    // no-op
   }
 }

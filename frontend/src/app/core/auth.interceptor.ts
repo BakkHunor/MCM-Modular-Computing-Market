@@ -2,7 +2,6 @@ import { HttpInterceptorFn } from '@angular/common/http';
 const SESSION_KEY = 'mcm_session_id';
 const TOKEN_KEY = 'mcm_token';
 function makeSessionId(): string {
- // Windows/Chrome alatt randomUUID oké, de ha nincs, fallback
  return (crypto as any)?.randomUUID?.() ?? Math.random().toString(36).slice(2);
 }
 function getOrCreateSessionId(): string {

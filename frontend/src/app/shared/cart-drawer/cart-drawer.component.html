@@ -1,17 +1,14 @@
-<!-- Overlay -->
 <div
   class="cd-overlay"
   [class.open]="(drawer.open$ | async) === true"
   (click)="drawer.close()"
 ></div>
 
-<!-- Drawer -->
 <aside
   class="cd-drawer"
   [class.open]="(drawer.open$ | async) === true"
   aria-label="Kosár">
   <div class="cd-inner">
-    <!-- Header -->
     <div class="cd-header">
       <div class="cd-head-left">
         <div class="cd-title">Kosár</div>
@@ -19,8 +16,6 @@
       </div>
       <button type="button" class="cd-close" (click)="drawer.close()" aria-label="Close">✕</button>
     </div>
-
-    <!-- Content -->
     <div class="cd-content">
       <div class="cd-empty" *ngIf="cart.items.length === 0">
         Kosár is empty.
@@ -51,8 +46,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Footer -->
     <div class="cd-footer">
       <div class="cd-row">
         <span class="muted">Részösszeg</span>

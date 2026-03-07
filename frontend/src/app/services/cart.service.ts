@@ -8,7 +8,6 @@ type ApiCartItem = {
  product_id: number;
  quantity: number;
 };
-// a backend többféleképp adhatja vissza, ezért toleránsak vagyunk:
 type ApiCartResponse =
  | ApiCartItem[]
  | { items: ApiCartItem[] }
@@ -26,7 +25,6 @@ export class CartService {
  private readonly baseUrl = 'http://localhost:3000';
  private readonly _items$ = new BehaviorSubject<CartItem[]>([]);
  readonly items$ = this._items$.asObservable();
- /** Template-k miatt kényelmes getterek */
  get items(): CartItem[] {
  return this._items$.value;
  }
@@ -38,7 +36,6 @@ export class CartService {
  }
   constructor(private http: HttpClient, private products: ProductService) {}
 
-  /** Gets or creates a session ID for guest users */
   private getSessionId(): string {
     let sessionId = localStorage.getItem('session_id');
     if (!sessionId) {
@@ -48,7 +45,6 @@ export class CartService {
     return sessionId;
   }
 
-  /** Common headers including session ID for guest users */
   private getHeaders(): { headers: { 'x-session-id': string } } {
     return {
       headers: {
@@ -56,12 +52,11 @@ export class CartService {
       }
     };
   }
-  /** Mindig a backend kosarat olvassa be és összeköti a terméklistával */
+
   sync(): Observable<void> {
     return this.http.get<ApiCartResponse>(`${this.baseUrl}/api/cart`, this.getHeaders()).pipe(
  map((resp) => normalizeCart(resp)),
  switchMap((apiItems) => {
- // Kell a termék lista, hogy legyen név/ár/kép a kosárban
  return this.products.getProducts().pipe(
  map((plist) => {
  const mapped: CartItem[] = apiItems
@@ -87,7 +82,7 @@ export class CartService {
  map(() => void 0)
  );
  }
-  /** Elfogad Product-et is (mert nálad volt ilyen hiba: this.cart.add(this.product, 1)) */
+
   add(productOrId: Product | number | string, quantity: number = 1): Observable<void> {
     const productId = this.toId(productOrId);
     return this.http
@@ -103,9 +98,7 @@ export class CartService {
  dec(productOrId: Product | number | string): Observable<void> {
  const productId = this.toId(productOrId);
  const currentQty = this.items.find((it) => Number(it.product.id) === Number(productId))?.quantity ?? 0;
- // ha 1-ről csökkentenénk, akkor remove (a backend csökkenti a mennyiséget)
  if (currentQty <= 1) return this.remove(productId);
- // Egyébként használjuk a backend remove endpointot (ami csökkenti a mennyiséget)
  return this.http.delete(`${this.baseUrl}/api/cart/remove`, {
    ...this.getHeaders(),
    body: { product_id: productId }

@@ -1,13 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@300;400;700&display=swap");
-/* Global styles (MCM theme) */
 :root{
- /* MCM paletta (domináns: zöldes, másodlagos: lila, harmadik: fehéres) */
- --bg0: #E5E9B2; /* zöldes alap */
- --bg1: #B5899D; /* lila */ /* lila (csak finom kiemelés) */
- --paper: #F3EFEF; /* fehéres felületekhez */
- --accent: #886840; /* barna kiemelő */
+ --bg0: #E5E9B2;
+ --bg1: #B5899D;
+ --paper: #F3EFEF;
+ --accent: #886840;
  --accent-hover: #7a5c39;
- --text: #2b2a24; /* fő szöveg */
+ --text: #2b2a24;
  --muted: rgba(43,42,36,0.72);
  --card: rgba(181,137,157,0.16);
  --card-strong: rgba(181,137,157,0.22);
@@ -19,7 +16,6 @@ html, body{
  margin: 0;
  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
  color: var(--text);
- /* Zöldes alap + ERŐSEBB lila másodlagos réteg (kevesebb fehér) */
  background-color: var(--bg0);
  background-image:
  radial-gradient(820px 520px at 18% 10%, rgba(181,137,157,0.55) 0%, rgba(181,137,157,0.00) 60%),
@@ -42,17 +38,12 @@ a{ color: inherit; }
  width: min(1180px, calc(100% - 36px));
  margin: 0 auto;
 }
-/* ===================================== */
-/* ===== MCM GTA6 VAPOR THEME ========== */
-/* ===================================== */
-/* GTA 6 sunset vapor gradient */
 html, body {
  background:#ffffff;
  background-attachment: fixed;
  min-height: 100vh;
  color: #ffffff !important;
 }
-/* Soft glow overlay */
 body::before {
  content: "";
  position: fixed;
@@ -62,16 +53,13 @@ body::before {
  pointer-events: none;
  z-index: 0;
 }
-/* Make sure content stays above overlay */
 body * {
  position: relative;
  z-index: 1;
 }
-/* ALL TEXT WHITE */
 * {
  color: #ffffff !important;
 }
-/* ALL BUTTONS BABY BLUE */
 button,
 .btn,
 input[type="submit"],
@@ -94,7 +82,6 @@ input[type="button"]:hover {
  background-color: #74c0fc !important;
  box-shadow: 0 0 30px rgba(165,216,255,1);
 }
-/* Inputs */
 input,
 select,
 textarea {
@@ -102,7 +89,6 @@ textarea {
  color: #ffffff !important;
  border: 2px solid #a5d8ff !important;
 }
-/* Cards */
 .card,
 .product-card,
 .box,
@@ -112,20 +98,14 @@ textarea {
  border: 2px solid #a5d8ff !important;
  box-shadow: 0 0 25px rgba(0,0,0,0.3);
 }
-/* Links */
 a {
  color: #ffffff !important;
 }
-
-/* =============================== */
-/* ============ FOOTER =========== */
-/* =============================== */
-/* Eneba-szerű, de szürke lábléc. Csak: Rólunk, Kapcsolat, GYIK, ÁSZF + copyright */
 footer.mcm-footer{
   border-top: 1px solid rgba(255,255,255,0.18) !important;
   background: rgba(43,43,43,0.92) !important;
   backdrop-filter: blur(8px);
-  padding: 18px 16px !important;
+  padding: 28px 16px !important;
 }
 footer.mcm-footer .inner{
   max-width: 1100px;
@@ -138,72 +118,56 @@ footer.mcm-footer .inner{
 }
 footer.mcm-footer .links{
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   flex-wrap: wrap;
 }
 footer.mcm-footer .links a{
-  color: #d6d6d6 !important;
+  color: #ffffff !important;
   text-decoration: none !important;
   font-weight: 700;
+  font-size: 16px;
   letter-spacing: 0.2px;
   opacity: 0.95;
-}
-footer.mcm-footer .links a:hover{
-  opacity: 1;
-  text-decoration: underline !important;
+  background: transparent !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  border: none !important;
 }
 footer.mcm-footer .copyright{
   color: #bdbdbd !important;
-  font-size: 12px;
+  font-size: 14px;
 }
-
-
-/* GLOBAL TYPOGRAPHY */
 body, body *{
   color:#3b4a5a !important;
   font-family: "Inter", "Segoe UI", sans-serif;
 }
-
-/* CHECKOUT FIX TEXT COLOR */
 .co-card, .co-card *{
   color:#3b4a5a !important;
 }
-
-/* BUTTON COLORS */
 .paybtn{
   background:#4a8dff !important;
   color:#fff !important;
 }
-
-/* NAVBAR COLOR */
 header, nav{
   background:#7fb3ff !important;
 }
-
-/* PAGE BACKGROUND WHITE */
 body{
   background:#ffffff !important;
 }
-
-
-/* --- Brand typography & color (handwritten) --- */
 :root{
   --mcm-text: #3b4a5a;
-  --mcm-muted: #8a93a0;  /* for product names etc. */
+  --mcm-muted: #8a93a0;
 }
-
 body, body *{
-  font-family: "Kalam", system-ui, -apple-system, "Segoe UI", sans-serif !important;
+  font-family: "Times New Roman", Times, serif !important;
   color: var(--mcm-text) !important;
 }
-
-/* Make big headings a bit heavier like the reference */
 h1, h2, h3, .hero h1, .hero-title, .page-title{
   font-weight: 700 !important;
   letter-spacing: 0.2px;
 }
-
-/* Product card titles should be that grey */
 .product-card h3,
 .product-card .title,
 .product-name,
@@ -212,14 +176,10 @@ h1, h2, h3, .hero h1, .hero-title, .page-title{
   color: var(--mcm-muted) !important;
   font-weight: 700 !important;
 }
-
-/* Home / cards product name grey */
 .card .name,
 .mini-name{
   color: var(--mcm-muted) !important;
 }
-
-/* GLOBAL BUTTON STYLE */
 button,
 .btn,
 input[type="button"],
@@ -233,15 +193,11 @@ input[type="submit"]{
   box-shadow:0 8px 20px rgba(0,0,0,.15);
   transition:all .18s ease;
 }
-
 button:hover,
 .btn:hover{
   transform:translateY(-1px);
   box-shadow:0 10px 24px rgba(0,0,0,.18);
 }
-
-
-/* GLOBAL FLOATING CARDS (no blue borders) */
 .card, .product-card, .product, .mini, .co-card{
   border: none !important;
 }
@@ -251,9 +207,6 @@ button:hover,
 .card:hover, .product-card:hover, .product:hover{
   box-shadow: 0 18px 55px rgba(0,0,0,.18) !important;
 }
-
-
-/* Fix Material Icons being overridden by global font */
 mat-icon, .mat-icon, .material-icons, .mi{
   font-family: 'Material Icons' !important;
   font-weight: normal !important;
@@ -266,4 +219,23 @@ mat-icon, .mat-icon, .material-icons, .mi{
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
+}
+@media (max-width: 768px){
+  .container{
+    width: calc(100% - 24px);
+  }
+  
+  footer.mcm-footer .inner{
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+  }
+  
+  footer.mcm-footer .links{
+    align-items: center;
+  }
+  
+  footer.mcm-footer .copyright{
+    text-align: center;
+  }
 }

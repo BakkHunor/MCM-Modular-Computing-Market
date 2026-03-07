@@ -18,24 +18,23 @@
     </div>
 
     <div class="co-grid">
-      <!-- Left -->
       <div class="co-card">
         <div class="sect-title">Kapcsolat</div>
 
         <label class="lbl">Email</label>
-        <input class="inp" type="email" [(ngModel)]="email" placeholder="you@email.com" />
+<input class="inp" type="email" [(ngModel)]="email" placeholder="te@email.com" />
 
         <div *ngIf="hasHardware" class="sect">
           <div class="sect-title">Szállítási cím</div>
 
           <div class="row2">
             <div>
-              <label class="lbl">Keresztnév</label>
-              <input class="inp" [(ngModel)]="firstName" />
-            </div>
-            <div>
               <label class="lbl">Vezetéknév</label>
               <input class="inp" [(ngModel)]="lastName" />
+            </div>
+            <div>
+              <label class="lbl">Keresztnév</label>
+              <input class="inp" [(ngModel)]="firstName" />
             </div>
           </div>
 
@@ -73,12 +72,10 @@
         <div *ngIf="successMsg" class="msg ok">{{ successMsg }}</div>
 
         <button class="paybtn" type="button" (click)="placeOrder()" [disabled]="loading || cart.items.length===0">
-          {{ loading ? 'Processing...' : 'Rendelés leadása' }}
+{{ loading ? 'Feldolgozás...' : 'Rendelés leadása' }}
         </button>
 
         </div>
-
-      <!-- Right summary -->
       <div class="co-card">
         <div class="sect-title">Rendelés összesítő</div>
 
