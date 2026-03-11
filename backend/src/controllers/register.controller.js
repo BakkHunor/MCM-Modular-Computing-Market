@@ -20,6 +20,20 @@ if (!passwordRegex.test(password)) {
 }
 
   try {
+    const existingUser = await User.findOne({
+  where: {
+    [db.Sequelize.Op.or]: [
+      { username },
+      { email }
+    ]
+  }
+});
+
+if (existingUser) {
+  return res.status(400).json({
+    message: "A felhasználónév vagy email már foglalt"
+  });
+}
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
