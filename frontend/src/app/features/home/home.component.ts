@@ -53,25 +53,19 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   slides: Slide[] = [
     {
-      title: 'GTA 6 – Előrendelés',
-      subtitle: 'Limitált készlet • vedd meg időben',
-      imageUrl: 'assets/ads/gta6.jpg',
-      ctaText: 'Megnézem',
-      link: '/search',
+      title: 'Battlefield 6',
+      subtitle: 'Hamarosan elérhető',
+      imageUrl: 'assets/slides/slide1.png',
     },
     {
-      title: 'Resident Evil: Requiem – Out now',
-      subtitle: 'Új megjelenés • azonnali kulcs',
-      imageUrl: 'assets/ads/re-requiem.jpg',
-      ctaText: 'Megnézem',
-      link: '/search',
+      title: 'Grand Theft Auto VI',
+      subtitle: 'Hamarosan elérhető',
+      imageUrl: 'assets/slides/slide2.jpg',
     },
     {
-      title: 'Steam Wallet akció',
-      subtitle: 'Ajándékkártyák • gyors kiszállítás',
-      imageUrl: 'assets/ads/steam.jpg',
-      ctaText: 'Megnézem',
-      link: '/search',
+      title: 'Resident Evil Requiem',
+      subtitle: 'Hamarosan elérhető',
+      imageUrl: 'assets/slides/slide3.jpg',
     },
   ];
 

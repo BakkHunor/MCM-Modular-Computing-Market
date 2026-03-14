@@ -1,21 +1,15 @@
 <section class="ads" *ngIf="slides.length > 0">
   <div class="ads-inner">
     <div class="ads-frame">
-      <a
+      <div
         class="ads-slide"
-        [routerLink]="slides[activeSlide].link || '/search'"
         [style.backgroundImage]="'url(' + slides[activeSlide].imageUrl + ')'"
       >
         <div class="ads-overlay">
           <div class="ads-title">{{ slides[activeSlide].title }}</div>
           <div class="ads-sub" *ngIf="slides[activeSlide].subtitle">{{ slides[activeSlide].subtitle }}</div>
-
-          <div class="ads-cta" *ngIf="slides[activeSlide].ctaText">
-            <span>{{ slides[activeSlide].ctaText }}</span>
-            <span class="arrow">→</span>
-          </div>
         </div>
-      </a>
+      </div>
 
       <button class="ads-nav left" type="button" (click)="prev()" aria-label="Előző">
         <mat-icon>chevron_left</mat-icon>
