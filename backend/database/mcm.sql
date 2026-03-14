@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: 127.0.0.1
--- Létrehozás ideje: 2026. Már 10. 11:51
+-- Létrehozás ideje: 2026. Már 14. 10:30
 -- Kiszolgáló verziója: 10.4.32-MariaDB
 -- PHP verzió: 8.2.12
 
@@ -47,39 +47,38 @@ CREATE TABLE `gamekeys` (
   `product_id` int(11) NOT NULL,
   `game_name` varchar(100) NOT NULL,
   `platform` varchar(50) NOT NULL,
-  `code` varchar(100) NOT NULL,
-  `is_used` tinyint(1) DEFAULT 0
+  `code` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `gamekeys`
 --
 
-INSERT INTO `gamekeys` (`key_id`, `product_id`, `game_name`, `platform`, `code`, `is_used`) VALUES
-(1, 1, 'Grand Theft Auto V', 'Steam', 'GTA-STEAM-KEY-001', 0),
-(3, 28, 'Cyberpunk 2077', 'Steam', 'CYBERPUNK2077-STEAM-KEY-001', 0),
-(4, 29, 'Red Dead Redemption 2', 'Rockstar', 'RDR2-ROCKSTAR-KEY-001', 0),
-(5, 30, 'Elden Ring', 'Steam', 'ELDENRING-STEAM-KEY-001', 0),
-(6, 31, 'Forza Horizon 5', 'Xbox', 'FORZAHORIZON5-XBOX-KEY-001', 0),
-(7, 32, 'EA Sports FC 25', 'EA', 'FC25-EA-KEY-001', 0),
-(8, 33, 'Tom Clancy\'s Rainbow Six Siege', 'Ubisoft', 'RAINBOWSIX-UBISOFT-KEY-001', 0),
-(9, 34, 'Minecraft Java Edition', 'Mojang', 'MINECRAFT-MOJANG-KEY-001', 0),
-(10, 35, 'Grand Theft Auto VI', 'Rockstar', 'GTA6-ROCKSTAR-KEY-001', 0),
-(11, 36, 'Hogwarts Legacy', 'Steam', 'HOGWARTSLEGACY-STEAM-KEY-001', 0),
-(12, 37, 'Baldur\'s Gate 3', 'Steam', 'BALDURSGATE3-STEAM-KEY-001', 0),
-(13, 38, 'Starfield', 'Steam', 'STARFIELD-STEAM-KEY-001', 0),
-(14, 39, 'Diablo IV', 'BattleNet', 'DIABLO4-BATTLENET-KEY-001', 0),
-(15, 40, 'Overwatch 2', 'BattleNet', 'OVERWATCH2-BATTLENET-KEY-001', 0),
-(16, 41, 'Valorant', 'Riot', 'VALORANT-RIOT-KEY-001', 0),
-(17, 42, 'Call of Duty: Modern Warfare III', 'BattleNet', 'MW3-BATTLENET-KEY-001', 0),
-(18, 43, 'Assassin\'s Creed Mirage', 'Ubisoft', 'ACMIRAGE-UBISOFT-KEY-001', 0),
-(19, 44, 'Alan Wake 2', 'Epic', 'ALANWAKE2-EPIC-KEY-001', 0),
-(20, 45, 'Resident Evil 4 Remake', 'Steam', 'RE4REMAKE-STEAM-KEY-001', 0),
-(21, 46, 'The Witcher 3 Complete Edition', 'GOG', 'WITCHER3-GOG-KEY-001', 0),
-(22, 47, 'Forza Motorsport', 'Xbox', 'FORZAMOTORSPORT-XBOX-KEY-001', 0),
-(23, 48, 'Gran Turismo 7', 'PlayStation', 'GRANTURISMO7-PLAYSTATION-KEY-001', 0),
-(24, 49, 'Marvel\'s Spider-Man 2', 'PlayStation', 'SPIDERMAN2-PLAYSTATION-KEY-001', 0),
-(25, 50, 'Helldivers 2', 'Steam', 'HELLDIVERS2-STEAM-KEY-001', 0);
+INSERT INTO `gamekeys` (`key_id`, `product_id`, `game_name`, `platform`, `code`) VALUES
+(1, 1, 'Grand Theft Auto V', 'Steam', 'GTA-STEAM-KEY-001'),
+(3, 28, 'Cyberpunk 2077', 'Steam', 'CYBERPUNK2077-STEAM-KEY-001'),
+(4, 29, 'Red Dead Redemption 2', 'Rockstar', 'RDR2-ROCKSTAR-KEY-001'),
+(5, 30, 'Elden Ring', 'Steam', 'ELDENRING-STEAM-KEY-001'),
+(6, 31, 'Forza Horizon 5', 'Xbox', 'FORZAHORIZON5-XBOX-KEY-001'),
+(7, 32, 'EA Sports FC 25', 'EA', 'FC25-EA-KEY-001'),
+(8, 33, 'Tom Clancy\'s Rainbow Six Siege', 'Ubisoft', 'RAINBOWSIX-UBISOFT-KEY-001'),
+(9, 34, 'Minecraft Java Edition', 'Mojang', 'MINECRAFT-MOJANG-KEY-001'),
+(10, 35, 'Grand Theft Auto VI', 'Rockstar', 'GTA6-ROCKSTAR-KEY-001'),
+(11, 36, 'Hogwarts Legacy', 'Steam', 'HOGWARTSLEGACY-STEAM-KEY-001'),
+(12, 37, 'Baldur\'s Gate 3', 'Steam', 'BALDURSGATE3-STEAM-KEY-001'),
+(13, 38, 'Starfield', 'Steam', 'STARFIELD-STEAM-KEY-001'),
+(14, 39, 'Diablo IV', 'BattleNet', 'DIABLO4-BATTLENET-KEY-001'),
+(15, 40, 'Overwatch 2', 'BattleNet', 'OVERWATCH2-BATTLENET-KEY-001'),
+(16, 41, 'Valorant', 'Riot', 'VALORANT-RIOT-KEY-001'),
+(17, 42, 'Call of Duty: Modern Warfare III', 'BattleNet', 'MW3-BATTLENET-KEY-001'),
+(18, 43, 'Assassin\'s Creed Mirage', 'Ubisoft', 'ACMIRAGE-UBISOFT-KEY-001'),
+(19, 44, 'Alan Wake 2', 'Epic', 'ALANWAKE2-EPIC-KEY-001'),
+(20, 45, 'Resident Evil 4 Remake', 'Steam', 'RE4REMAKE-STEAM-KEY-001'),
+(21, 46, 'The Witcher 3 Complete Edition', 'GOG', 'WITCHER3-GOG-KEY-001'),
+(22, 47, 'Forza Motorsport', 'Xbox', 'FORZAMOTORSPORT-XBOX-KEY-001'),
+(23, 48, 'Gran Turismo 7', 'PlayStation', 'GRANTURISMO7-PLAYSTATION-KEY-001'),
+(24, 49, 'Marvel\'s Spider-Man 2', 'PlayStation', 'SPIDERMAN2-PLAYSTATION-KEY-001'),
+(25, 50, 'Helldivers 2', 'Steam', 'HELLDIVERS2-STEAM-KEY-001');
 
 -- --------------------------------------------------------
 
@@ -92,40 +91,39 @@ CREATE TABLE `giftcards` (
   `product_id` int(11) NOT NULL,
   `platform` varchar(50) NOT NULL,
   `value` decimal(10,2) NOT NULL,
-  `code` varchar(100) NOT NULL,
-  `is_used` tinyint(1) DEFAULT 0
+  `code` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- A tábla adatainak kiíratása `giftcards`
 --
 
-INSERT INTO `giftcards` (`card_id`, `product_id`, `platform`, `value`, `code`, `is_used`) VALUES
-(1, 2, 'Steam', 20.00, 'STEAM-CARD-001', 0),
-(2, 52, 'Steam', 50.00, 'STEAM-CARD-002', 0),
-(3, 53, 'Xbox', 50.00, 'XBOX-CARD-001', 0),
-(4, 54, 'PlayStation', 50.00, 'PLAYSTATION-CARD-001', 0),
-(5, 55, 'Nintendo', 50.00, 'NINTENDO-CARD-001', 0),
-(6, 56, 'EA', 25.00, 'EA-CARD-001', 0),
-(7, 57, 'Ubisoft', 25.00, 'UBISOFT-CARD-001', 0),
-(8, 58, 'BattleNet', 25.00, 'BATTLENET-CARD-001', 0),
-(9, 59, 'Riot', 25.00, 'RIOT-CARD-001', 0),
-(10, 60, 'GooglePlay', 25.00, 'GOOGLEPLAY-CARD-001', 0),
-(11, 61, 'AppStore', 25.00, 'APPSTORE-CARD-001', 0),
-(12, 62, 'Netflix', 25.00, 'NETFLIX-CARD-001', 0),
-(13, 63, 'Spotify', 25.00, 'SPOTIFY-CARD-001', 0),
-(14, 64, 'Amazon', 25.00, 'AMAZON-CARD-001', 0),
-(15, 65, 'Discord', 25.00, 'DISCORD-CARD-001', 0),
-(16, 66, 'Roblox', 25.00, 'ROBLOX-CARD-001', 0),
-(17, 67, 'Minecraft', 25.00, 'MINECRAFT-CARD-001', 0),
-(18, 68, 'Xbox', 0.00, 'XBOXGAMEPASS-CARD-001', 0),
-(19, 69, 'PlayStation', 0.00, 'PSPLUS-CARD-001', 0),
-(20, 70, 'Nintendo', 0.00, 'NSO-CARD-001', 0),
-(21, 71, 'EA', 0.00, 'EAPLAY-CARD-001', 0),
-(22, 72, 'Ubisoft', 0.00, 'UBISOFTPLUS-CARD-001', 0),
-(23, 73, 'BattleNet', 50.00, 'BATTLENET-CARD-002', 0),
-(24, 74, 'Riot', 50.00, 'RIOT-CARD-002', 0),
-(25, 75, 'Steam', 100.00, 'STEAM-CARD-003', 0);
+INSERT INTO `giftcards` (`card_id`, `product_id`, `platform`, `value`, `code`) VALUES
+(1, 2, 'Steam', 20.00, 'STEAM-CARD-001'),
+(2, 52, 'Steam', 50.00, 'STEAM-CARD-002'),
+(3, 53, 'Xbox', 50.00, 'XBOX-CARD-001'),
+(4, 54, 'PlayStation', 50.00, 'PLAYSTATION-CARD-001'),
+(5, 55, 'Nintendo', 50.00, 'NINTENDO-CARD-001'),
+(6, 56, 'EA', 25.00, 'EA-CARD-001'),
+(7, 57, 'Ubisoft', 25.00, 'UBISOFT-CARD-001'),
+(8, 58, 'BattleNet', 25.00, 'BATTLENET-CARD-001'),
+(9, 59, 'Riot', 25.00, 'RIOT-CARD-001'),
+(10, 60, 'GooglePlay', 25.00, 'GOOGLEPLAY-CARD-001'),
+(11, 61, 'AppStore', 25.00, 'APPSTORE-CARD-001'),
+(12, 62, 'Netflix', 25.00, 'NETFLIX-CARD-001'),
+(13, 63, 'Spotify', 25.00, 'SPOTIFY-CARD-001'),
+(14, 64, 'Amazon', 25.00, 'AMAZON-CARD-001'),
+(15, 65, 'Discord', 25.00, 'DISCORD-CARD-001'),
+(16, 66, 'Roblox', 25.00, 'ROBLOX-CARD-001'),
+(17, 67, 'Minecraft', 25.00, 'MINECRAFT-CARD-001'),
+(18, 68, 'Xbox', 0.00, 'XBOXGAMEPASS-CARD-001'),
+(19, 69, 'PlayStation', 0.00, 'PSPLUS-CARD-001'),
+(20, 70, 'Nintendo', 0.00, 'NSO-CARD-001'),
+(21, 71, 'EA', 0.00, 'EAPLAY-CARD-001'),
+(22, 72, 'Ubisoft', 0.00, 'UBISOFTPLUS-CARD-001'),
+(23, 73, 'BattleNet', 50.00, 'BATTLENET-CARD-002'),
+(24, 74, 'Riot', 50.00, 'RIOT-CARD-002'),
+(25, 75, 'Steam', 100.00, 'STEAM-CARD-003');
 
 -- --------------------------------------------------------
 
