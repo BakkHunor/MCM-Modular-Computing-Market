@@ -17,10 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true
     },
-    is_used: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    }
   }, {
     tableName: 'giftcards',
     timestamps: false

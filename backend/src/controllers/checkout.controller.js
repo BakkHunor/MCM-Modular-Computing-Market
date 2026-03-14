@@ -4,7 +4,7 @@ const { sequelize } = db;
 const CartItem = db.CartItem;
 const Product = db.Product;
 const Order = db.Order;
-const OrderDetail = db.Orderdetail;
+const OrderDetail = db.OrderDetail;
 const Gamekey = db.Gamekey;
 const Giftcard = db.Giftcard;
 
@@ -79,7 +79,7 @@ exports.checkout = async (req, res) => {
 
         for (let i = 0; i < item.quantity; i++) {
           const key = await Gamekey.findOne({
-            where: { product_id: product.product_id, is_used: 0 },
+            where: { product_id: product.product_id },
             transaction: t
           });
 
@@ -87,8 +87,7 @@ exports.checkout = async (req, res) => {
             throw new Error(`Elfogytak a kulcsok: ${product.name}`);
           }
 
-          key.is_used = 1;
-          await key.save({ transaction: t });
+
 
           deliveredCodes.push({
             product: product.name,
@@ -101,7 +100,7 @@ exports.checkout = async (req, res) => {
 
         for (let i = 0; i < item.quantity; i++) {
           const card = await Giftcard.findOne({
-            where: { product_id: product.product_id, is_used: 0 },
+            where: { product_id: product.product_id },
             transaction: t
           });
 
@@ -109,8 +108,7 @@ exports.checkout = async (req, res) => {
             throw new Error(`Elfogytak az ajándékkártyák: ${product.name}`);
           }
 
-          card.is_used = 1;
-          await card.save({ transaction: t });
+
 
           deliveredCodes.push({
             product: product.name,

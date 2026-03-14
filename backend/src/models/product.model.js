@@ -17,7 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     },
 
     price: DataTypes.DECIMAL(10,2),
-    stock: DataTypes.INTEGER
+    stock: DataTypes.INTEGER,
+    image_url: {
+      type: DataTypes.STRING,
+      allowNull: true
+    }
   }, {
     tableName: 'products',
     timestamps: false
@@ -25,4 +29,3 @@ module.exports = (sequelize, DataTypes) => {
 
   return Product;
 };
-
