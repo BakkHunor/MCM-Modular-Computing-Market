@@ -36,7 +36,7 @@ export class CheckoutComponent implements OnInit {
   countdown = 5;
   private countdownTimer: any;
 
-  // form
+
   acceptTerms = false;
 
   email = '';

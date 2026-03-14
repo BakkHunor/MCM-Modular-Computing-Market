@@ -21,7 +21,7 @@ export class CartDrawerComponent implements OnDestroy {
     public drawer: CartDrawerService,
     private router: Router
   ) {
-    // amikor kinyílik, szinkronizáljuk a kosarat + lockoljuk a body scrollt
+
     this.sub = this.drawer.open$.subscribe((isOpen) => {
       if (isOpen) {
         this.cart.sync().subscribe({ error: () => {} });
